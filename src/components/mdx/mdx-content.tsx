@@ -8,20 +8,24 @@ import { Practice, PracticeItem } from "./practice";
 import { KeyCombo } from "./key-combo";
 import { BeforeAfter } from "./before-after";
 
-const sharedComponents = {
-  Callout,
-  CodeBlock,
-  Steps,
-  Step,
-  FileTree,
-  FileTreeFolder,
-  FileTreeFile,
-  Demo,
-  Practice,
-  PracticeItem,
-  KeyCombo,
-  BeforeAfter,
-};
+function makeComponents(chapterSlug: string) {
+  return {
+    Callout,
+    CodeBlock,
+    Steps,
+    Step,
+    FileTree,
+    FileTreeFolder,
+    FileTreeFile,
+    Demo,
+    Practice: (props: React.ComponentProps<typeof Practice>) => (
+      <Practice {...props} chapterSlug={chapterSlug} />
+    ),
+    PracticeItem,
+    KeyCombo,
+    BeforeAfter,
+  };
+}
 
 const useMDXComponent = (code: string) => {
   const fn = new Function(code);
@@ -30,13 +34,14 @@ const useMDXComponent = (code: string) => {
 
 interface MDXContentProps {
   code: string;
+  chapterSlug?: string;
 }
 
-export function MDXContent({ code }: MDXContentProps) {
+export function MDXContent({ code, chapterSlug = "" }: MDXContentProps) {
   const Component = useMDXComponent(code);
   return (
     <div className="prose max-w-none">
-      <Component components={sharedComponents} />
+      <Component components={makeComponents(chapterSlug)} />
     </div>
   );
 }

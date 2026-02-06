@@ -57,3 +57,30 @@ export const difficultyColors: Record<string, string> = {
   intermediate: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400",
   advanced: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400",
 };
+
+/** 각 챕터별 PracticeItem 개수 */
+export const PRACTICE_COUNTS: Record<string, number> = {
+  "01-introduction": 3,
+  "02-installation": 4,
+  "03-claude-md": 4,
+  "04-commands": 4,
+  "05-shortcuts": 5,
+  "06-prompting": 4,
+  "07-git-workflow": 3,
+  "08-custom-commands": 4,
+  "09-hooks": 3,
+  "10-mcp": 3,
+  "11-subagents": 3,
+  "12-security": 3,
+  "13-token-optimization": 4,
+  "14-ide-integration": 3,
+  "15-agent-sdk": 3,
+  "16-session-management": 4,
+  "17-pro-workflows": 4,
+  "18-tips-cheatsheet": 4,
+};
+
+export const TOTAL_PRACTICE_ITEMS = 65;
+
+export const GOOGLE_FORM_URL =
+  "https://docs.google.com/forms/d/1icHC8CHBYJLn6smERi_IRjlvGIyxd0Ff1CvY-wx1ByM/viewform";

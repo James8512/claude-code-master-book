@@ -5,6 +5,8 @@ import { ChapterHeader } from "@/components/chapters/chapter-header";
 import { ChapterNav } from "@/components/chapters/chapter-nav";
 import { TableOfContents } from "@/components/chapters/toc";
 import { CompletionButton } from "@/components/chapters/completion-button";
+import { AchievementSidebar } from "@/components/chapters/achievement-sidebar";
+import { AchievementFab } from "@/components/chapters/achievement-fab";
 
 const sortedChapters = chapters
   .filter((c) => !c.draft)
@@ -60,7 +62,7 @@ export default async function ChapterPage({
           difficulty={chapter.difficulty}
           tags={chapter.tags}
         />
-        <MDXContent code={chapter.content} />
+        <MDXContent code={chapter.content} chapterSlug={chapter.slug} />
         <CompletionButton chapter={chapter.chapter} />
         <ChapterNav
           prev={prev ? { slug: prev.slug, title: prev.title, chapter: prev.chapter } : undefined}
@@ -68,8 +70,10 @@ export default async function ChapterPage({
         />
       </article>
       <aside className="hidden w-56 flex-shrink-0 px-4 py-10 xl:block">
+        <AchievementSidebar />
         <TableOfContents />
       </aside>
+      <AchievementFab />
     </div>
   );
 }
