@@ -1,0 +1,116 @@
+---
+slug: "18-tips-cheatsheet"
+title: "팁 & 치트시트"
+description: "31개 팁 총정리, 커뮤니티 리소스, 자주 쓰는 패턴 모음입니다."
+part: 5
+partTitle: "실전"
+chapter: 18
+order: 18
+readingTime: "15분"
+difficulty: "beginner"
+tags: ["치트시트", "팁", "총정리", "패턴"]
+draft: false
+---
+
+## 빠른 실행
+
+| 팁 | 설명 |
+|-----|------|
+| `!명령어` | bash 즉시 실행, 추론 없이 바로 실행 |
+| `claude -p "질문"` | Headless 모드, CI/CD 통합에 유용 |
+| `claude --sandbox` | 허용 범위 안에서 권한 확인 없이 작업 |
+| `claude --dangerously-skip-permissions` | YOLO 모드 (주의 필요) |
+
+## 세션 관리
+
+| 팁 | 설명 |
+|-----|------|
+| `claude --continue` | 직전 대화 이어가기 |
+| `claude --resume` | 세션 목록에서 선택 |
+| `/rename 이름` | 세션에 이름 붙이기 |
+| `& 프롬프트` | 백그라운드/웹으로 전송 |
+| `claude --teleport ID` | 원격 세션을 로컬로 불러오기 |
+
+## 단축키
+
+| 단축키 | 기능 |
+|--------|------|
+| <KeyCombo keys={["Esc", "Esc"]} /> | 이전 상태로 되돌리기 |
+| `/vim` | Vim 방식 프롬프트 편집 |
+| <KeyCombo keys={["Ctrl", "S"]} /> | 프롬프트 임시 저장 |
+| <KeyCombo keys={["Ctrl", "R"]} /> | 프롬프트 역방향 검색 |
+| <KeyCombo keys={["Shift", "Tab"]} /> × 2 | Plan 모드 토글 |
+| `@파일명` | 파일/디렉토리 컨텍스트 추가 |
+| <KeyCombo keys={["Tab"]} /> | 자동 제안 수락 |
+
+## 컨텍스트 & 메모리
+
+| 팁 | 설명 |
+|-----|------|
+| `# 규칙` | 메모리에 바로 저장 |
+| `/context` | 토큰 사용 현황 확인 |
+| `/init` | CLAUDE.md 자동 생성 |
+| `@파일` | 파일을 컨텍스트에 추가 |
+
+## AI 기능
+
+| 팁 | 설명 |
+|-----|------|
+| Extended Thinking | API에서 추론 과정을 길게 설정 |
+| 서브에이전트 | 200k 컨텍스트의 보조 에이전트 |
+
+## 자동화
+
+| 팁 | 설명 |
+|-----|------|
+| `.claude/commands/` | 커스텀 슬래시 커맨드 |
+| Hooks | 이벤트 기반 자동 실행 |
+| Agent Skills | 재사용 가능한 작업 패턴 |
+| 플러그인 | 설정 묶음 배포 |
+
+## 모니터링
+
+| 팁 | 설명 |
+|-----|------|
+| `/stats` | 사용 통계 확인 |
+| `/statusline` | 하단 상태 바 커스터마이징 |
+| `/usage` | 토큰 한도 확인 |
+| `/extra-usage` | 사용 제한 해제 |
+
+## IDE & 브라우저
+
+| 팁 | 설명 |
+|-----|------|
+| `/chrome` | 브라우저 직접 제어 |
+| LSP 연결 | 타입/정의/참조 확인 |
+| `/export` | 대화 기록 마크다운 내보내기 |
+| 자동 제안 | Tab으로 다음 작업 수락 |
+
+## 커뮤니티 리소스
+
+### 공식 문서
+- [Claude Code 공식 문서](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code Best Practices](https://docs.anthropic.com/en/docs/claude-code/best-practices)
+- [MCP 문서](https://docs.anthropic.com/en/docs/claude-code/mcp)
+
+### 커뮤니티
+- [awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) — 커뮤니티 리소스 모음
+- [awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents) — 서브에이전트 모음
+- [claude-code-tips](https://github.com/ykdojo/claude-code-tips) — 팁 모음
+- [Claude Code Cheat Sheet](https://shipyard.build/blog/claude-code-cheat-sheet/) — 치트시트
+
+### 블로그 & 가이드
+- [How I Use Every Claude Code Feature](https://blog.sshh.io/p/how-i-use-every-claude-code-feature) — 전 기능 활용기
+- [Claude Code 가이드 (Builder.io)](https://www.builder.io/blog/claude-code) — 종합 가이드
+- [Creating the Perfect CLAUDE.md](https://dometrain.com/blog/creating-the-perfect-claudemd-for-claude-code/) — CLAUDE.md 작성 가이드
+
+<Callout type="tip">
+이 치트시트를 북마크해두고, 필요할 때마다 돌아와서 확인하세요. 모든 팁을 한 번에 익히기보다는, 하나씩 실전에 적용하며 체득하는 것이 가장 효과적입니다.
+</Callout>
+
+<Practice>
+<PracticeItem>가장 유용해 보이는 팁 3가지를 골라 바로 적용해보세요</PracticeItem>
+<PracticeItem>CLAUDE.md를 작성하고 팀과 공유하세요</PracticeItem>
+<PracticeItem>커스텀 커맨드를 하나 만들어보세요</PracticeItem>
+<PracticeItem>커뮤니티 리소스를 둘러보고 새로운 팁을 찾아보세요</PracticeItem>
+</Practice>

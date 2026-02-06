@@ -1,0 +1,87 @@
+---
+slug: "12-security"
+title: "보안과 샌드박싱"
+description: "YOLO 모드 vs sandbox 모드, 파일시스템/네트워크 격리, 안전한 권한 관리를 배웁니다."
+part: 4
+partTitle: "프로 레벨"
+chapter: 12
+order: 12
+readingTime: "12분"
+difficulty: "advanced"
+tags: ["보안", "sandbox", "YOLO", "권한"]
+draft: false
+---
+
+## 왜 보안이 중요한가?
+
+Claude Code는 파일을 읽고 쓰고, 명령어를 실행하는 강력한 도구입니다. 이 강력함은 잘못 설정하면 위험으로 바뀔 수 있습니다.
+
+## 권한 모드 비교
+
+### 기본 모드 (Interactive)
+매번 파일 생성이나 명령 실행 시 확인을 요청합니다. 안전하지만 속도가 느릴 수 있습니다.
+
+### YOLO 모드
+```bash
+claude --dangerously-skip-permissions
+```
+
+모든 권한 확인을 건너뜁니다. 빠르지만 위험한 동작도 그대로 실행됩니다.
+
+<Callout type="danger">
+YOLO 모드는 이름 그대로 위험합니다. 자동화 환경이나 테스트 환경에서만 사용하세요. 프로덕션 코드를 다룰 때는 절대 사용하지 마세요.
+</Callout>
+
+### Sandbox 모드
+```bash
+claude --sandbox
+```
+
+실행 가능한 범위를 미리 정해두고, 그 안에서는 권한 확인 없이 작업합니다. YOLO 모드만큼 빠르면서도 허용된 경계 안에서만 동작합니다.
+
+### `/permissions` — 권한 사전 등록
+
+```bash
+/permissions
+```
+
+사용 가능한 bash 명령을 미리 등록하여 반복적인 권한 허가 없이 작업할 수 있습니다.
+
+<Callout type="tip" title="Boris Cherny의 팁">
+Boris는 YOLO 모드를 사용하지 않습니다. 대신 `/permissions`로 필요한 명령을 미리 등록하고, `settings.json`에 저장하여 팀과 공유합니다.
+</Callout>
+
+## 권한 설정 공유
+
+```json title=".claude/settings.json"
+{
+  "permissions": {
+    "allow": [
+      "npm test",
+      "npm run build",
+      "npm run lint",
+      "git *"
+    ],
+    "deny": [
+      "rm -rf /",
+      "sudo *"
+    ]
+  }
+}
+```
+
+이 설정을 Git에 커밋하면 팀 전체가 동일한 권한 설정을 사용합니다.
+
+## 파일시스템 격리
+
+sandbox 모드에서는 프로젝트 디렉토리 외부의 파일에 접근할 수 없습니다. 민감한 설정 파일이나 다른 프로젝트의 코드를 실수로 수정하는 것을 방지합니다.
+
+## 네트워크 격리
+
+네트워크 접근도 제한할 수 있습니다. 허용된 도메인만 접근 가능하도록 설정하면 의도치 않은 외부 요청을 방지합니다.
+
+<Practice>
+<PracticeItem>sandbox 모드로 Claude Code를 실행해보세요</PracticeItem>
+<PracticeItem>/permissions로 자주 쓰는 명령을 등록해보세요</PracticeItem>
+<PracticeItem>.claude/settings.json에 권한 설정을 저장해보세요</PracticeItem>
+</Practice>

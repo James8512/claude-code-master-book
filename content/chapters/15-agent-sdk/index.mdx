@@ -1,0 +1,114 @@
+---
+slug: "15-agent-sdk"
+title: "Agent SDK"
+description: "Python/TypeScript로 Claude Code처럼 동작하는 커스텀 에이전트를 만드는 방법을 배웁니다."
+part: 4
+partTitle: "프로 레벨"
+chapter: 15
+order: 15
+readingTime: "15분"
+difficulty: "advanced"
+tags: ["Agent SDK", "Python", "TypeScript", "커스텀 에이전트"]
+draft: false
+---
+
+## Agent SDK란?
+
+Claude Code에서 사용되는 에이전트 루프, 도구 사용, 컨텍스트 관리 구조가 SDK 형태로 제공됩니다. 몇 줄 코드만으로 Claude Code처럼 동작하는 에이전트를 만들어 서비스나 자동화 흐름에 바로 붙일 수 있습니다.
+
+## TypeScript SDK
+
+```typescript title="간단한 에이전트 예시"
+import Anthropic from "@anthropic-ai/sdk";
+
+const client = new Anthropic();
+
+const response = await client.messages.create({
+  model: "claude-opus-4-5-20250929",
+  max_tokens: 4096,
+  tools: [
+    {
+      name: "execute_bash",
+      description: "bash 명령어를 실행합니다",
+      input_schema: {
+        type: "object",
+        properties: {
+          command: { type: "string", description: "실행할 명령어" },
+        },
+        required: ["command"],
+      },
+    },
+  ],
+  messages: [
+    { role: "user", content: "현재 디렉토리의 파일 목록을 보여줘" },
+  ],
+});
+```
+
+## Python SDK
+
+```python title="Python 에이전트 예시"
+import anthropic
+
+client = anthropic.Anthropic()
+
+response = client.messages.create(
+    model="claude-opus-4-5-20250929",
+    max_tokens=4096,
+    tools=[
+        {
+            "name": "execute_bash",
+            "description": "bash 명령어를 실행합니다",
+            "input_schema": {
+                "type": "object",
+                "properties": {
+                    "command": {"type": "string", "description": "실행할 명령어"},
+                },
+                "required": ["command"],
+            },
+        },
+    ],
+    messages=[
+        {"role": "user", "content": "현재 디렉토리의 파일 목록을 보여줘"},
+    ],
+)
+```
+
+## 에이전트 루프 구현
+
+진정한 에이전트는 단일 호출이 아닌 **루프**로 동작합니다. 도구를 호출하고, 결과를 분석하고, 다시 도구를 호출하는 반복 과정입니다.
+
+<Steps>
+<Step title="사용자 입력 받기">
+사용자의 요청을 첫 번째 메시지로 설정합니다.
+</Step>
+<Step title="Claude 호출">
+도구 목록과 함께 Claude API를 호출합니다.
+</Step>
+<Step title="도구 실행">
+Claude가 도구 사용을 요청하면 해당 도구를 실행합니다.
+</Step>
+<Step title="결과 반환">
+도구 실행 결과를 Claude에게 다시 전달합니다.
+</Step>
+<Step title="반복 또는 종료">
+Claude가 최종 답변을 주거나, 추가 도구 사용을 요청하면 반복합니다.
+</Step>
+</Steps>
+
+## 활용 사례
+
+- **CI/CD 자동화**: PR이 올라오면 자동으로 코드 리뷰
+- **모니터링 에이전트**: 에러 로그를 감지하고 자동 수정
+- **문서 생성 에이전트**: 코드 변경에 따라 문서 자동 업데이트
+- **테스트 에이전트**: 변경된 코드에 대해 자동 테스트 작성
+
+<Callout type="info">
+Agent SDK는 Claude Code의 내부 동작 원리를 이해하고 커스텀 솔루션을 만들고 싶은 개발자를 위한 것입니다. 대부분의 경우 Claude Code 자체로 충분합니다.
+</Callout>
+
+<Practice>
+<PracticeItem>Anthropic SDK를 설치하세요 (npm install @anthropic-ai/sdk)</PracticeItem>
+<PracticeItem>간단한 도구를 가진 에이전트를 만들어보세요</PracticeItem>
+<PracticeItem>에이전트 루프를 구현하여 연속 작업을 처리해보세요</PracticeItem>
+</Practice>
