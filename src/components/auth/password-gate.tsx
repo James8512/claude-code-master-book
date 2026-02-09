@@ -3,7 +3,7 @@
 import { useState, useEffect, FormEvent } from "react";
 
 const PASSWORD_HASH =
-  "9d15eb4987c77a5d553d9644218c529190928eedf168be2b7d15be6935cfc368";
+  "e24aebd55d8a2a0776743e3f38633e2e9784dd3de96eb601e4e08739140c7fdc";
 
 async function sha256(message: string): Promise<string> {
   const msgBuffer = new TextEncoder().encode(message);
@@ -25,7 +25,7 @@ export default function PasswordGate({
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem(STORAGE_KEY);
+    const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "true") {
       setAuthenticated(true);
     }
@@ -36,7 +36,7 @@ export default function PasswordGate({
     e.preventDefault();
     const hash = await sha256(password);
     if (hash === PASSWORD_HASH) {
-      sessionStorage.setItem(STORAGE_KEY, "true");
+      localStorage.setItem(STORAGE_KEY, "true");
       setAuthenticated(true);
       setError(false);
     } else {

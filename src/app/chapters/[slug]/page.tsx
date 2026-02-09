@@ -69,7 +69,7 @@ export default async function ChapterPage({
           next={next ? { slug: next.slug, title: next.title, chapter: next.chapter } : undefined}
         />
       </article>
-      <aside className="hidden w-56 flex-shrink-0 px-4 py-10 xl:block">
+      <aside className="hidden w-56 flex-shrink-0 px-4 py-10 xl:block sticky top-0 max-h-screen overflow-y-auto">
         <AchievementSidebar />
         <TableOfContents />
       </aside>
