@@ -20,13 +20,13 @@ Model Context Protocol(MCP)은 Claude Code를 외부 도구 및 서비스와 연
 
 ```bash
 # Playwright MCP (브라우저 자동화)
-claude mcp add playwright -- npx @anthropic/mcp-playwright
+claude mcp add playwright -- npx @playwright/mcp@latest
 
 # Supabase MCP (데이터베이스)
 claude mcp add supabase -- npx @supabase/mcp-server
 
 # Firecrawl MCP (웹 크롤링)
-claude mcp add firecrawl -- npx @anthropic/mcp-firecrawl
+claude mcp add firecrawl -- npx firecrawl-mcp
 ```
 
 ## 주요 MCP 서버와 활용 사례
@@ -78,8 +78,8 @@ claude mcp list
 # MCP 서버 제거
 claude mcp remove firecrawl
 
-# MCP 서버 상태 확인
-claude mcp status
+# MCP 서버 상세 정보 확인
+claude mcp get playwright
 ```
 
 ## 프로젝트별 MCP 설정
@@ -91,7 +91,7 @@ claude mcp status
   "mcpServers": {
     "playwright": {
       "command": "npx",
-      "args": ["@anthropic/mcp-playwright"]
+      "args": ["@playwright/mcp@latest"]
     },
     "supabase": {
       "command": "npx",

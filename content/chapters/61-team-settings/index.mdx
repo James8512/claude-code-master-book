@@ -1,7 +1,7 @@
 ---
 slug: "61-team-settings"
 title: "팀 설정 공유로 일관된 개발 환경 만들기"
-description: ".claude/team-settings.json으로 팀 전체의 Claude Code 설정을 통일하고 Git으로 공유하는 방법을 알아봅니다."
+description: ".claude/settings.json으로 팀 전체의 Claude Code 설정을 통일하고 Git으로 공유하는 방법을 알아봅니다."
 part: 12
 partTitle: "고급 기능과 SDK"
 chapter: 61
@@ -16,9 +16,9 @@ draft: false
 
 개인이 Claude Code를 사용할 때는 각자의 설정이 달라도 문제가 없습니다. 하지만 팀으로 작업할 때는 일관된 설정이 중요합니다. 한 사람은 특정 명령어를 허용하고 다른 사람은 차단한다면, 같은 작업에서 다른 결과가 나올 수 있습니다.
 
-## .claude/team-settings.json
+## .claude/settings.json (프로젝트 공유 설정)
 
-프로젝트 루트에 `.claude/team-settings.json` 파일을 생성하면, 해당 프로젝트에서 Claude Code를 사용하는 모든 팀원에게 동일한 설정이 적용됩니다.
+프로젝트 루트에 `.claude/settings.json` 파일을 생성하면, 해당 프로젝트에서 Claude Code를 사용하는 모든 팀원에게 동일한 설정이 적용됩니다. 이 파일을 Git에 커밋하면 팀 설정으로 공유됩니다.
 
 ```json
 {
@@ -77,13 +77,13 @@ draft: false
 
 ```bash
 # .claude/ 폴더를 Git에 추가
-git add .claude/team-settings.json
+git add .claude/settings.json
 git commit -m "Add Claude Code team settings"
 git push
 ```
 
 <Callout type="warning" title="개인 설정과 팀 설정의 분리">
-개인적인 API 키나 인증 정보는 팀 설정에 포함하지 마세요. 이런 정보는 `.claude/local-settings.json`이나 환경 변수를 사용하고, `.gitignore`에 등록하세요.
+개인적인 API 키나 인증 정보는 팀 설정에 포함하지 마세요. 이런 정보는 `.claude/settings.local.json`(자동으로 gitignore됨)이나 환경 변수를 사용하세요.
 </Callout>
 
 ## 설정 우선순위
@@ -102,5 +102,5 @@ git push
 </Callout>
 
 <Practice>
-  <PracticeItem>프로젝트에 .claude/team-settings.json 파일을 생성하고, 팀에서 공통으로 사용할 권한 규칙과 훅을 설정하여 Git에 커밋해보세요</PracticeItem>
+  <PracticeItem>프로젝트에 .claude/settings.json 파일을 생성하고, 팀에서 공통으로 사용할 권한 규칙과 MCP 서버를 설정하여 Git에 커밋해보세요</PracticeItem>
 </Practice>
