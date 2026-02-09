@@ -100,6 +100,11 @@ export function AchievementSidebar() {
           })}
         </div>
 
+        {/* 도움말 */}
+        <p className="mt-3 text-[11px] text-muted-foreground leading-relaxed">
+          스크린샷을 첨부해야 완료로 인정됩니다.
+        </p>
+
         {/* 제출 버튼 */}
         {completedCount > 0 && (
           <button
