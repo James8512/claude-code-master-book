@@ -1,0 +1,54 @@
+---
+slug: "22-git-github-cli"
+title: "Git과 GitHub CLI 프로 활용"
+description: "Git과 GitHub CLI를 Claude Code와 결합하여 강력한 워크플로우를 구축합니다."
+part: 5
+partTitle: "Git과 GitHub 워크플로우"
+chapter: 22
+order: 22
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["Git", "GitHub", "CLI", "자동화"]
+draft: false
+---
+
+## Git + Claude Code 워크플로우
+
+ykdojo는 Git과 GitHub CLI(`gh`)를 Claude Code와 결합하여 강력한 워크플로우를 만들었습니다.
+
+### 자동 커밋 메시지 생성
+
+```bash
+> "변경 사항을 분석하고 적절한 커밋 메시지를 작성한 후 커밋해줘"
+# Claude 실행:
+# git diff를 분석
+# 커밋 메시지 생성: "feat: Add user authentication middleware with JWT validation"
+# git add . && git commit -m "..."
+```
+
+### Draft PR 자동 생성
+
+```bash
+> "현재 브랜치의 변경 사항으로 draft PR을 만들어줘.
+  제목은 변경 내용을 요약하고, 본문에는 주요 변경 사항을 리스트로 작성해줘."
+# Claude 실행:
+# gh pr create --draft --title "..." --body "..."
+```
+
+### PR 템플릿 활용
+
+`.github/pull_request_template.md` 파일을 만들어두면, Claude가 이를 참고하여 PR 본문을 작성합니다.
+
+```markdown
+## 변경 사항
+## 테스트 방법
+## 체크리스트
+- [ ] 테스트 추가됨
+- [ ] 문서 업데이트됨
+- [ ] Breaking change 없음
+```
+
+<Practice>
+  <PracticeItem>Claude Code에게 변경 사항 분석 후 자동 커밋을 요청해보세요</PracticeItem>
+  <PracticeItem>draft PR을 자동 생성해보세요</PracticeItem>
+</Practice>

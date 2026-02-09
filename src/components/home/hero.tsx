@@ -24,11 +24,11 @@ export function Hero() {
           <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground lg:text-xl">
             A부터 Z까지, Claude Code의 모든 것을 마스터하는 단계별 가이드.
             <br className="hidden sm:block" />
-            설치부터 프로 워크플로우까지, 18개 챕터로 완성합니다.
+            해커톤 우승자의 70가지 파워 팁으로 완성합니다.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link
-              href="/chapters/01-introduction"
+              href="/chapters/00-divide-and-conquer"
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all hover:opacity-90"
             >
               <BookOpen className="h-4 w-4" />
@@ -36,11 +36,11 @@ export function Hero() {
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
-              href="/chapters/18-tips-cheatsheet"
+              href="/chapters/62-beginner-roadmap"
               className="inline-flex items-center gap-2 rounded-lg border border-border px-6 py-3 text-sm font-medium transition-colors hover:bg-muted"
             >
               <Terminal className="h-4 w-4" />
-              치트시트 바로보기
+              학습 로드맵
             </Link>
           </div>
         </motion.div>

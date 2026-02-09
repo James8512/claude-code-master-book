@@ -1,0 +1,63 @@
+---
+slug: "05-custom-status-line"
+title: "커스텀 상태 라인으로 모든 것을 한눈에"
+description: "터미널 하단에 실시간으로 중요한 정보를 표시하는 커스텀 상태 라인을 설정합니다."
+part: 2
+partTitle: "기초부터 탄탄하게"
+chapter: 5
+order: 5
+readingTime: "5분"
+difficulty: "beginner"
+tags: ["상태라인", "설정", "커스터마이징"]
+draft: false
+---
+
+## 왜 커스텀 상태 라인이 필요한가
+
+ykdojo가 가장 먼저 소개하는 팁은 커스텀 상태 라인(Custom Status Line)입니다. 이는 터미널 하단에 실시간으로 중요한 정보를 표시하는 기능으로, 파워 유저들이 가장 먼저 설정하는 항목입니다.
+
+기본 상태 라인은 최소한의 정보만 표시합니다. 실전에서는 다음 정보들이 실시간으로 필요합니다:
+
+- 현재 토큰 사용량 및 남은 한도
+- Git 브랜치 및 변경 사항 상태
+- 현재 작업 디렉토리
+- 활성화된 MCP 서버 수
+- 현재 사용 중인 모델
+
+## ykdojo의 커스텀 상태 라인
+
+```
+~/project (main*) | Tokens: 45k/200k | Opus 4.5 | MCP: 3 active
+```
+
+### 설치 방법
+
+```bash
+# 1. 저장소 클론
+git clone https://github.com/ykdojo/claude-code-tips.git
+# 2. 스크립트 심볼릭 링크 생성
+ln -s $(pwd)/claude-code-tips/scripts/status-line.sh ~/.claude/scripts/status-line.sh
+# 3. Claude Code 재시작
+```
+
+### 커스터마이징
+
+`~/.claude/settings.json`에서 상태 라인 형식을 직접 정의할 수도 있습니다:
+
+```json
+{
+  "statusLine": {
+    "format": "{{dir}} {{git}} | {{tokens}} | {{model}}",
+    "updateInterval": 1000
+  }
+}
+```
+
+## /statusline 명령어
+
+Ado는 `/statusline` 명령어를 통해 대화형으로 상태 라인을 커스터마이징하는 방법을 소개합니다. 이 명령어를 실행하면 Claude가 사용 가능한 변수들을 보여주고, 원하는 형식을 대화로 설정할 수 있습니다.
+
+<Practice>
+  <PracticeItem>~/.claude/settings.json에서 커스텀 상태 라인을 설정해보세요</PracticeItem>
+  <PracticeItem>/statusline 명령어로 대화형 커스터마이징을 시도해보세요</PracticeItem>
+</Practice>

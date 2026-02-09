@@ -1,0 +1,45 @@
+---
+slug: "20-context-xray"
+title: "/context로 X-Ray 비전"
+description: "/context 명령어로 컨텍스트 윈도우의 상세 사용 현황을 파악합니다."
+part: 4
+partTitle: "컨텍스트 관리의 예술"
+chapter: 20
+order: 20
+readingTime: "3분"
+difficulty: "intermediate"
+tags: ["컨텍스트", "분석", "최적화"]
+draft: false
+---
+
+## /context 명령어
+
+`/context` 명령어는 컨텍스트 윈도우의 X-Ray입니다. 무엇이 공간을 차지하는지 정확히 보여줍니다.
+
+```
+Context Usage: 87,432 / 200,000 tokens (43.7%)
+
+Breakdown:
+- System Prompt: 10,234 tokens (11.7%)
+- MCP Servers: 15,678 tokens (18.0%)
+  - supabase-mcp: 8,234 tokens
+  - playwright-mcp: 4,123 tokens
+  - firecrawl-mcp: 3,321 tokens
+- Memory Files (CLAUDE.md): 2,345 tokens (2.7%)
+- Skills: 1,234 tokens (1.4%)
+- Conversation History: 57,941 tokens (66.3%)
+```
+
+## 최적화 전략
+
+1. **MCP 정리**: 사용하지 않는 MCP는 `/mcp`로 비활성화
+2. **CLAUDE.md 간소화**: 불필요한 설명 제거
+3. **대화 압축**: `/clear` 또는 HANDOFF.md 사용
+
+<Callout type="info" title="Ado의 조언">
+"일반적으로 10개 미만의 MCP와 80개 미만의 활성 도구를 유지하는 것이 최적입니다."
+</Callout>
+
+<Practice>
+  <PracticeItem>/context 명령어를 실행하여 컨텍스트 사용 현황을 분석하고 최적화해보세요</PracticeItem>
+</Practice>

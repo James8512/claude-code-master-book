@@ -1,0 +1,123 @@
+---
+slug: "49-devops-engineer"
+title: "DevOps 엔지니어로서의 Claude Code"
+description: "GitHub Actions 디버깅, Docker 이미지 최적화 등 Claude Code를 DevOps 업무에 활용하는 방법을 배웁니다."
+part: 10
+partTitle: "실전 활용 사례"
+chapter: 49
+order: 49
+readingTime: "6분"
+difficulty: "advanced"
+tags: ["DevOps", "자동화", "CI/CD"]
+draft: false
+---
+
+## DevOps에서의 Claude Code
+
+DevOps 작업은 YAML 설정, 셸 스크립트, 인프라 코드 등 다양한 기술이 교차하는 영역입니다. Claude Code는 이 모든 것을 이해하고 조작할 수 있으므로, DevOps 엔지니어의 강력한 동반자가 됩니다.
+
+## GitHub Actions 디버깅
+
+### /dx:gha 워크플로우
+
+GitHub Actions 워크플로우가 실패했을 때 체계적으로 디버깅하는 방법입니다.
+
+```
+> GitHub Actions의 CI 워크플로우가 실패했어. 원인을 찾아줘
+```
+
+<Steps>
+<Step title="실패 로그 확인">
+Claude Code가 gh CLI를 사용하여 최근 실패한 워크플로우 로그를 가져옵니다.
+
+```bash
+$ gh run list --status=failure --limit=5
+$ gh run view <run-id> --log-failed
+```
+</Step>
+<Step title="에러 패턴 분석">
+로그에서 에러 메시지, 실패한 스텝, 타임아웃 등의 패턴을 분석합니다.
+</Step>
+<Step title="워크플로우 파일 수정">
+원인을 파악한 후 `.github/workflows/` 디렉토리의 YAML 파일을 수정합니다.
+</Step>
+<Step title="수정 결과 검증">
+수정된 워크플로우를 푸시하고 실행 결과를 확인합니다.
+</Step>
+</Steps>
+
+<Callout type="tip" title="커스텀 슬래시 커맨드 활용">
+GitHub Actions 디버깅은 자주 반복되는 작업입니다. `.claude/commands/gha.md` 파일을 만들어 `/gha` 커맨드로 빠르게 실행할 수 있도록 자동화하세요.
+</Callout>
+
+## Docker 이미지 최적화
+
+Docker 이미지 크기를 줄이면 빌드 시간, 배포 시간, 저장 비용 모두가 개선됩니다. Claude Code에게 Dockerfile 최적화를 요청해보세요.
+
+### 멀티 스테이지 빌드
+
+```
+> 현재 Dockerfile을 멀티 스테이지 빌드로 최적화해줘.
+  빌드 도구는 빌드 스테이지에만 포함하고,
+  최종 이미지에는 런타임에 필요한 파일만 포함해줘
+```
+
+```dockerfile
+# 빌드 스테이지
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# 프로덕션 스테이지
+FROM node:20-alpine AS production
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+EXPOSE 3000
+CMD ["node", "dist/main.js"]
+```
+
+### 불필요한 패키지 제거
+
+```
+> Dockerfile에서 프로덕션에 불필요한 devDependencies와 빌드 도구를 제거해줘.
+  npm ci --omit=dev를 사용하고, 불필요한 시스템 패키지도 정리해줘
+```
+
+### 레이어 캐싱 최적화
+
+```
+> Docker 레이어 캐싱을 최적화해줘.
+  자주 변경되는 파일(소스 코드)은 나중에 COPY하고,
+  잘 변경되지 않는 파일(package.json)은 먼저 COPY하도록 순서를 조정해줘
+```
+
+### .dockerignore 설정
+
+```
+> .dockerignore 파일을 작성해줘.
+  node_modules, .git, 테스트 파일, 문서 등 이미지에 불필요한 파일을 제외해줘
+```
+
+## 최적화 결과 비교
+
+```
+> 최적화 전후 Docker 이미지 크기를 비교해줘
+
+$ docker images
+REPOSITORY    TAG        SIZE
+my-app        before     1.2GB
+my-app        after      185MB
+```
+
+<Callout type="info" title="지속적 최적화">
+Docker 이미지 최적화는 한 번으로 끝나는 작업이 아닙니다. 새로운 의존성이 추가될 때마다 Claude Code에게 Dockerfile 리뷰를 요청하여 최적 상태를 유지하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>프로젝트의 Dockerfile을 Claude Code에게 분석시키고, 멀티 스테이지 빌드, 레이어 캐싱 최적화, .dockerignore 설정 등을 적용하여 이미지 크기를 줄여보세요</PracticeItem>
+</Practice>

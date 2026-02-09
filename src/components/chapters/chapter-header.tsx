@@ -28,7 +28,7 @@ export function ChapterHeader({
       <div className="mb-2 flex items-center gap-2 text-sm text-muted-foreground">
         <span>Part {part}: {partTitle}</span>
         <span>/</span>
-        <span>Chapter {chapter}</span>
+        <span>Tip {chapter}</span>
       </div>
       <h1 className="mb-3 text-3xl font-bold tracking-tight lg:text-4xl">
         {title}

@@ -1,0 +1,93 @@
+---
+slug: "23-git-worktrees"
+title: "Git Worktrees: 병렬 브랜치 작업의 비밀 무기"
+description: "하나의 저장소에서 여러 브랜치를 동시에 작업할 수 있는 Git worktrees 활용법을 배웁니다."
+part: 5
+partTitle: "Git과 GitHub 워크플로우"
+chapter: 23
+order: 23
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["Git", "worktree", "병렬작업"]
+draft: false
+---
+
+## 개요
+
+`git stash`와 `git checkout`을 반복하며 브랜치를 전환하는 것은 비효율적입니다. Git worktrees를 사용하면 하나의 저장소에서 여러 작업 디렉토리를 만들어 각각 다른 브랜치를 동시에 열어둘 수 있습니다. Claude Code와 함께 사용하면 각 터미널 탭에서 독립적인 Claude 세션을 실행할 수 있어 생산성이 크게 향상됩니다.
+
+## Git Worktree란?
+
+일반적으로 하나의 Git 저장소는 하나의 작업 디렉토리(working directory)를 가집니다. Worktree는 같은 `.git` 저장소를 공유하면서도 독립적인 작업 디렉토리를 추가로 생성하는 기능입니다.
+
+```bash
+# 새로운 worktree 생성 (기존 브랜치)
+git worktree add ../myapp-feature-auth feature/auth
+
+# 새로운 worktree 생성 (새 브랜치 생성과 동시에)
+git worktree add -b feature/payment ../myapp-payment
+
+# 현재 worktree 목록 확인
+git worktree list
+```
+
+## Claude Code와 병렬 작업
+
+<Steps>
+<Step title="Worktree 생성">
+각 기능별로 별도의 worktree를 생성합니다.
+
+```bash
+# 인증 기능 작업용
+git worktree add ../myapp-auth feature/auth
+
+# 결제 기능 작업용
+git worktree add ../myapp-payment feature/payment
+```
+</Step>
+<Step title="별도 터미널 탭에서 Claude 실행">
+각 worktree 디렉토리에서 독립적인 Claude Code 세션을 실행합니다.
+
+```bash
+# 탭 1: 인증 기능
+cd ../myapp-auth && claude
+
+# 탭 2: 결제 기능
+cd ../myapp-payment && claude
+```
+</Step>
+<Step title="독립적 작업 진행">
+각 탭에서 서로 다른 기능을 동시에 개발합니다. 한쪽에서 빌드 대기 중일 때 다른 탭에서 작업을 이어갈 수 있습니다.
+</Step>
+<Step title="작업 완료 후 정리">
+기능 개발이 끝나면 worktree를 제거합니다.
+
+```bash
+git worktree remove ../myapp-auth
+git worktree remove ../myapp-payment
+```
+</Step>
+</Steps>
+
+## 디렉토리 구조 예시
+
+```
+~/projects/
+├── myapp/                 # 메인 (main 브랜치)
+├── myapp-auth/            # worktree (feature/auth 브랜치)
+├── myapp-payment/         # worktree (feature/payment 브랜치)
+└── myapp-hotfix/          # worktree (hotfix/critical-bug 브랜치)
+```
+
+<Callout type="tip" title="핵심 장점">
+각 worktree는 독립적인 파일 시스템을 가지므로, 한 브랜치에서의 변경이 다른 브랜치에 영향을 주지 않습니다. node_modules도 각각 별도로 설치되어 충돌 걱정이 없습니다.
+</Callout>
+
+<Callout type="warning" title="주의사항">
+같은 브랜치를 두 개의 worktree에서 동시에 체크아웃할 수 없습니다. 이는 Git이 데이터 무결성을 보호하기 위한 안전장치입니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>현재 프로젝트에서 git worktree add 명령으로 새 worktree를 만들고, 별도 터미널에서 Claude Code를 실행하여 두 기능을 동시에 개발해보세요</PracticeItem>
+  <PracticeItem>git worktree list로 활성 worktree를 확인하고, 완료된 작업의 worktree를 git worktree remove로 정리해보세요</PracticeItem>
+</Practice>

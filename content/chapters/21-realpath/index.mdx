@@ -1,0 +1,36 @@
+---
+slug: "21-realpath"
+title: "realpath로 절대 경로 얻기"
+description: "상대 경로 대신 절대 경로를 사용하여 Claude의 혼란을 방지합니다."
+part: 4
+partTitle: "컨텍스트 관리의 예술"
+chapter: 21
+order: 21
+readingTime: "2분"
+difficulty: "beginner"
+tags: ["경로", "터미널", "팁"]
+draft: false
+---
+
+## 절대 경로의 중요성
+
+다른 디렉토리의 파일을 Claude에게 알려줄 때, 상대 경로 대신 절대 경로를 사용하면 혼란을 방지할 수 있습니다.
+
+```bash
+# 잘못된 방법
+> "../../config/database.ts 파일을 확인해줘"
+
+# 올바른 방법
+> !realpath ../../config/database.ts
+/Users/ykdojo/projects/myapp/config/database.ts
+
+> "@/Users/ykdojo/projects/myapp/config/database.ts 이 파일을 확인해줘"
+```
+
+<Callout type="tip" title="팁">
+`realpath` 명령어를 ! prefix와 함께 사용하면, 즉시 절대 경로를 얻어 Claude에게 전달할 수 있습니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>realpath 명령어로 상대 경로를 절대 경로로 변환하여 Claude에게 전달해보세요</PracticeItem>
+</Practice>

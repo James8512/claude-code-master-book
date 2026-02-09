@@ -1,0 +1,92 @@
+---
+slug: "24-pr-review"
+title: "대화형 PR 리뷰: 코드 품질의 수문장"
+description: "Claude Code를 활용한 체계적인 Pull Request 리뷰 워크플로우를 배웁니다."
+part: 5
+partTitle: "Git과 GitHub 워크플로우"
+chapter: 24
+order: 24
+readingTime: "6분"
+difficulty: "intermediate"
+tags: ["PR", "코드리뷰", "GitHub"]
+draft: false
+---
+
+## 개요
+
+Pull Request 리뷰는 코드 품질을 유지하는 핵심 과정이지만, 대규모 PR은 리뷰에 많은 시간이 소요됩니다. Claude Code를 활용하면 변경사항을 빠르게 이해하고, 잠재적 문제를 체계적으로 발견할 수 있습니다.
+
+## 대화형 PR 리뷰 워크플로우
+
+<Steps>
+<Step title="PR 체크아웃">
+GitHub CLI로 리뷰할 PR을 로컬에 가져옵니다.
+
+```bash
+gh pr checkout 123
+```
+</Step>
+<Step title="변경사항 요약 요청">
+Claude에게 전체 변경사항의 요약을 요청합니다.
+
+```
+이 PR의 변경사항을 요약해줘. 어떤 파일이 변경되었고,
+핵심 변경 내용이 뭔지 설명해줘.
+```
+</Step>
+<Step title="파일별 심층 리뷰">
+특정 파일이나 모듈에 대한 심층 리뷰를 요청합니다.
+
+```
+src/services/payment.ts 파일의 변경사항을 자세히 리뷰해줘.
+보안 취약점, 엣지 케이스, 성능 문제가 있는지 확인해줘.
+```
+</Step>
+<Step title="테스트 커버리지 확인">
+변경된 코드에 대한 테스트 커버리지를 점검합니다.
+
+```
+이 PR에서 변경된 로직 중 테스트가 누락된 부분이 있는지 확인해줘.
+```
+</Step>
+<Step title="개선 제안 및 자동 수정">
+발견된 문제를 Claude가 직접 수정하도록 합니다.
+
+```
+발견된 문제들을 수정해줘. 각 수정 사항에 대해 이유를 설명해줘.
+```
+</Step>
+</Steps>
+
+## 실제 사례: ykdojo의 PR 리뷰
+
+ykdojo는 Claude Code로 PR 리뷰를 수행하면서 사람이 놓치기 쉬운 버그를 발견한 사례를 공유했습니다.
+
+```typescript
+// Claude가 발견한 문제 1: 타임존 버그
+const createdAt = new Date(user.created_at); // UTC와 로컬 타임존 혼동
+// 수정: dayjs.utc(user.created_at).local() 사용 권장
+
+// Claude가 발견한 문제 2: N+1 쿼리
+const users = await db.query('SELECT * FROM users');
+for (const user of users) {
+  const orders = await db.query('SELECT * FROM orders WHERE user_id = ?', [user.id]);
+  // 수정: JOIN 또는 IN 절로 단일 쿼리 변환 권장
+}
+
+// Claude가 발견한 문제 3: 누락된 에러 핸들링
+const response = await fetch('/api/data');
+const data = await response.json(); // response.ok 체크 누락
+```
+
+<Callout type="info" title="ykdojo의 발견">
+Claude는 타임존 버그, N+1 쿼리 문제, 누락된 에러 핸들링을 연달아 발견했습니다. 이 중 타임존 버그는 프로덕션에서 발견되었다면 큰 문제가 될 수 있었습니다.
+</Callout>
+
+<Callout type="tip" title="효과적인 리뷰 요청">
+"이 PR을 리뷰해줘"보다 "보안 관점에서 이 PR을 리뷰해줘" 또는 "성능 병목이 될 수 있는 부분을 찾아줘"처럼 관점을 지정하면 더 깊이 있는 리뷰를 받을 수 있습니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>gh pr checkout으로 실제 PR을 가져온 후, Claude Code에게 "보안 관점"과 "성능 관점"으로 각각 리뷰를 요청하여 결과를 비교해보세요</PracticeItem>
+</Practice>

@@ -1,0 +1,41 @@
+---
+slug: "13-markdown-notion"
+title: "마크다운과 Notion 활용"
+description: "마크다운으로 구조화된 정보를 전달하고, Notion을 통해 링크를 보존하는 기술을 배웁니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 13
+order: 13
+readingTime: "3분"
+difficulty: "beginner"
+tags: ["마크다운", "Notion", "정보전달"]
+draft: false
+---
+
+## 마크다운 활용
+
+Claude Code는 마크다운을 완벽하게 지원합니다. 복잡한 구조의 정보를 전달할 때 마크다운을 사용하면 Claude가 더 정확하게 이해합니다.
+
+```markdown
+다음 API 엔드포인트를 구현해줘:
+## POST /api/users
+- **Request Body**: { name: string, email: string }
+- **Response**: { id: number, name: string, email: string }
+- **Validation**: name은 2-50자, email은 유효한 형식
+- **Error Cases**: 400 유효성 검사 실패, 409 이메일 중복
+```
+
+## Notion으로 링크 보존
+
+Slack이나 다른 곳에서 링크가 포함된 텍스트를 복사하여 Claude Code에 직접 붙여넣으면 링크가 사라집니다. 하지만 Notion에 먼저 붙여넣은 후, Notion에서 복사하면 마크다운 형식으로 변환되어 링크가 보존됩니다.
+
+<Steps>
+<Step title="Slack에서 복사">링크가 포함된 메시지를 복사</Step>
+<Step title="Notion에 붙여넣기">Notion 페이지에 붙여넣기</Step>
+<Step title="Notion에서 다시 복사">마크다운 형식으로 변환됨</Step>
+<Step title="Claude Code에 붙여넣기">링크가 보존된 상태로 전달</Step>
+</Steps>
+
+<Practice>
+  <PracticeItem>마크다운 형식으로 API 스펙을 작성하여 Claude Code에게 구현을 요청해보세요</PracticeItem>
+</Practice>

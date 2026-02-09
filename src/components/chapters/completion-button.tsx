@@ -30,7 +30,7 @@ export function CompletionButton({ chapter }: CompletionButtonProps) {
       ) : (
         <>
           <Circle className="h-4 w-4" />
-          이 챕터를 완료로 표시하기
+          이 팁을 완료로 표시하기
         </>
       )}
     </button>

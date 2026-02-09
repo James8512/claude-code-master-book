@@ -1,0 +1,51 @@
+---
+slug: "14-keyboard-shortcuts"
+title: "키보드 단축키 완전 정복"
+description: "파워 유저들이 마우스 없이 모든 작업을 처리하는 키보드 단축키를 배웁니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 14
+order: 14
+readingTime: "5분"
+difficulty: "beginner"
+tags: ["단축키", "키보드", "생산성"]
+draft: false
+---
+
+## 필수 단축키
+
+파워 유저들은 마우스를 거의 사용하지 않습니다. 모든 작업을 키보드로 처리합니다.
+
+| 단축키 | 기능 | 사용 시점 |
+|--------|------|-----------|
+| <KeyCombo keys={["Esc", "Esc"]} /> | 대화/코드 되감기 (Undo) | 잘못된 변경 되돌리기 |
+| <KeyCombo keys={["Ctrl", "R"]} /> | 역방향 검색 | 이전 프롬프트 재사용 |
+| <KeyCombo keys={["Ctrl", "S"]} /> | 프롬프트 임시 저장 | 작성 중인 프롬프트 보관 |
+| Tab / Enter | 프롬프트 제안 수락 | 다음 작업 즉시 실행 |
+
+## Double Esc: 되감기의 마법
+
+Claude가 잘못된 코드를 작성했거나, 원하지 않는 파일을 삭제했을 때, <KeyCombo keys={["Esc"]} />를 두 번 빠르게 누르면 마지막 작업을 되돌립니다.
+
+## Ctrl+R: 역방향 검색
+
+이전에 사용한 프롬프트를 검색할 수 있습니다.
+
+```bash
+# Ctrl+R 누르기
+(reverse-i-search): auth
+# "auth"가 포함된 이전 프롬프트들이 표시됨
+```
+
+## Prompt Stashing: 임시 저장
+
+긴 프롬프트를 작성하던 중, 갑자기 다른 작업을 해야 할 때 <KeyCombo keys={["Ctrl", "S"]} />로 임시 저장할 수 있습니다.
+
+## Prompt Suggestions: 다음 작업 예측
+
+Claude는 현재 컨텍스트를 바탕으로 다음에 할 작업을 예측하여 제안합니다. Tab 또는 Enter를 눌러 즉시 수락할 수 있습니다.
+
+<Practice>
+  <PracticeItem>Esc Esc로 되감기, Ctrl+R로 역방향 검색을 실습해보세요</PracticeItem>
+  <PracticeItem>Ctrl+S로 프롬프트를 임시 저장했다가 복원해보세요</PracticeItem>
+</Practice>

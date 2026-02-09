@@ -20,5 +20,5 @@ export function useProgress() {
     [completed]
   );
 
-  return { completed, toggle, isComplete, total: 18 };
+  return { completed, toggle, isComplete, total: 67 };
 }

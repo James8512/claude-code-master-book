@@ -27,7 +27,7 @@ export async function generateMetadata({
   const chapter = sortedChapters.find((c) => c.slug === slug);
   if (!chapter) return {};
   return {
-    title: `Ch.${chapter.chapter} ${chapter.title}`,
+    title: `Tip ${chapter.chapter} ${chapter.title}`,
     description: chapter.description,
   };
 }

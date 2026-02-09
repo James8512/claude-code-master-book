@@ -1,0 +1,87 @@
+---
+slug: "59-lsp-integration"
+title: "LSP 통합: 코드 인텔리전스의 힘"
+description: "LSP(Language Server Protocol)를 통해 Claude Code가 실시간 진단, 코드 네비게이션, 타입 정보를 활용하는 방법을 알아봅니다."
+part: 12
+partTitle: "고급 기능과 SDK"
+chapter: 59
+order: 59
+readingTime: "5분"
+difficulty: "advanced"
+tags: ["LSP", "코드인텔리전스", "진단"]
+draft: false
+---
+
+## LSP란 무엇인가
+
+LSP(Language Server Protocol)는 IDE와 언어 서버 간의 표준 통신 프로토콜입니다. TypeScript, Python, Rust 등 각 언어에는 전용 언어 서버가 있으며, 이 서버가 코드의 타입 정보, 정의 위치, 참조, 오류를 실시간으로 분석합니다.
+
+Claude Code는 LSP와 통합되어, 단순히 텍스트로 코드를 읽는 것이 아니라 코드의 구조적 의미를 이해합니다.
+
+## LSP가 제공하는 3가지 핵심 기능
+
+<Steps>
+<Step title="즉시 진단(Instant Diagnostics)">
+코드를 편집하는 즉시 타입 오류, 문법 오류, 린트 경고를 감지합니다. 코드를 실행하거나 빌드하지 않아도 문제를 발견할 수 있습니다.
+
+```typescript
+// LSP가 즉시 감지하는 오류 예시
+const user: User = {
+  name: "Alice",
+  age: "30"  // ← LSP: Type 'string' is not assignable to type 'number'
+};
+```
+</Step>
+<Step title="코드 네비게이션(Code Navigation)">
+정의로 이동(Go to Definition), 참조 찾기(Find References), 호버 정보(Hover Info) 등 코드 네비게이션 기능을 제공합니다. Claude Code가 함수의 정의와 모든 사용처를 정확히 파악할 수 있습니다.
+</Step>
+<Step title="언어 인식(Language Awareness)">
+각 프로그래밍 언어의 고유한 특성을 이해합니다. TypeScript의 제네릭, Python의 데코레이터, Rust의 라이프타임 등 언어별 타입 시스템과 문법을 정확히 인식합니다.
+</Step>
+</Steps>
+
+## LSP 유무에 따른 차이
+
+### LSP 없이 작업할 때
+
+```
+1. 코드 작성
+2. 빌드 또는 실행
+3. 오류 발견
+4. 오류 위치 파악
+5. 수정
+6. 다시 빌드 또는 실행
+```
+
+<Callout type="warning" title="비효율적인 피드백 루프">
+LSP 없이는 매번 코드를 실행해야 오류를 발견할 수 있습니다. 간단한 타입 오류 하나를 찾기 위해 전체 빌드 사이클을 돌려야 하는 것은 큰 시간 낭비입니다.
+</Callout>
+
+### LSP와 함께 작업할 때
+
+```
+1. 코드 작성
+2. 즉시 오류 감지 (실시간)
+3. 바로 수정
+```
+
+LSP는 코드를 타이핑하는 순간 오류를 감지합니다. Claude Code가 파일을 수정한 직후 LSP 진단 결과를 확인하여, 타입 오류나 잘못된 참조를 즉시 수정할 수 있습니다.
+
+## Claude Code에서 LSP 활용하기
+
+Claude Code는 IDE(VS Code, JetBrains 등)와 함께 사용할 때 LSP의 혜택을 최대로 받습니다. IDE의 LSP가 제공하는 진단 정보를 Claude Code가 참조하여 더 정확한 코드를 생성합니다.
+
+<Callout type="tip" title="실전 팁">
+Claude Code가 코드를 수정한 후 IDE에 빨간 줄이 보이면, 해당 오류 메시지를 Claude Code에게 전달하세요. LSP의 진단 정보는 매우 정확하므로, Claude가 문제를 빠르게 파악하고 수정할 수 있습니다.
+</Callout>
+
+| 기능 | LSP 없이 | LSP 있을 때 |
+|------|----------|------------|
+| 타입 오류 감지 | 빌드 시 | 편집 즉시 |
+| 정의 위치 찾기 | 텍스트 검색 | 정확한 점프 |
+| 참조 추적 | 문자열 매칭 | 의미적 참조 |
+| 자동 완성 | 제한적 | 타입 기반 정확한 제안 |
+
+<Practice>
+  <PracticeItem>IDE에서 LSP가 감지한 타입 오류 메시지를 Claude Code에게 전달하여 수정하게 해보고, LSP 없이 동일한 작업을 할 때와 효율을 비교해보세요</PracticeItem>
+</Practice>

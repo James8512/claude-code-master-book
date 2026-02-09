@@ -1,4 +1,4 @@
-const STORAGE_KEY = "claude-code-masterbook-progress";
+const STORAGE_KEY = "claude-code-masterbook-progress-v2";
 
 export function getCompletedChapters(): number[] {
   if (typeof window === "undefined") return [];

@@ -1,0 +1,108 @@
+---
+slug: "37-containers"
+title: "Docker 컨테이너: 격리된 AI 작업 환경"
+description: "Docker 컨테이너에서 Claude Code를 실행하여 안전하고 격리된 개발 환경을 구축하는 방법을 배웁니다."
+part: 8
+partTitle: "컨테이너와 샌드박스"
+chapter: 37
+order: 37
+readingTime: "7분"
+difficulty: "advanced"
+tags: ["Docker", "컨테이너", "격리"]
+draft: false
+---
+
+## 개요
+
+Docker 컨테이너에서 Claude Code를 실행하면 호스트 시스템과 완전히 격리된 환경에서 AI가 작업합니다. 실험적인 코드 실행, 위험한 명령어 테스트, 팀 환경 표준화에 특히 유용합니다.
+
+## Dockerfile 작성
+
+```dockerfile
+FROM ubuntu:22.04
+
+# 기본 도구 설치
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Node.js 설치
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+# Claude Code 설치
+RUN npm install -g @anthropic-ai/claude-code
+
+# Gemini CLI 설치 (폴백용)
+RUN npm install -g @anthropic-ai/gemini-cli
+
+# 작업 디렉토리 설정
+WORKDIR /workspace
+
+# 비루트 사용자 생성
+RUN useradd -m -s /bin/bash developer
+USER developer
+```
+
+## 컨테이너 실행
+
+```bash
+# 프로젝트 디렉토리를 마운트하여 실행
+docker run -it \
+  -v $(pwd):/workspace \
+  -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+  claude-dev-env \
+  claude
+```
+
+<Callout type="warning" title="API 키 보안">
+`-e` 플래그로 전달한 환경 변수는 `docker inspect`로 확인할 수 있습니다. 프로덕션 환경에서는 Docker secrets나 볼트를 사용하세요.
+</Callout>
+
+## 고급: Worker Claude 오케스트레이션
+
+여러 Claude 인스턴스를 tmux로 오케스트레이션하는 고급 패턴입니다:
+
+```bash
+# 컨테이너 내에서 tmux 세션 생성
+tmux new-session -d -s worker1
+tmux new-session -d -s worker2
+tmux new-session -d -s worker3
+
+# 각 세션에서 Claude 실행
+tmux send-keys -t worker1 \
+  'claude -p "src/auth/ 모듈을 리팩토링해줘"' Enter
+tmux send-keys -t worker2 \
+  'claude -p "src/payment/ 모듈의 테스트를 작성해줘"' Enter
+tmux send-keys -t worker3 \
+  'claude -p "src/api/ 모듈의 문서를 생성해줘"' Enter
+```
+
+## ykdojo의 시스템 프롬프트 패칭
+
+ykdojo는 Docker 컨테이너 내에서 Claude Code의 시스템 프롬프트를 커스터마이징하여 사용했습니다:
+
+```bash
+# 컨테이너 빌드 시 패치 적용
+docker run -it \
+  -v $(pwd):/workspace \
+  -v $(pwd)/patches:/patches \
+  -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+  claude-dev-env \
+  bash -c "node /patches/apply.js && claude"
+```
+
+<Callout type="tip" title="컨테이너의 장점">
+컨테이너 안에서는 `rm -rf /`도 호스트에 영향을 주지 않습니다. Claude에게 실험적인 작업을 맡기기에 이상적인 환경입니다.
+</Callout>
+
+<Callout type="info" title="볼륨 마운트 주의">
+`-v $(pwd):/workspace`로 마운트하면 컨테이너 내 변경이 호스트에 반영됩니다. 완전한 격리가 필요하면 볼륨 마운트 없이 실행하고, 결과물만 `docker cp`로 복사하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>위의 Dockerfile을 기반으로 Claude Code가 포함된 Docker 이미지를 빌드하고, 컨테이너 내에서 간단한 작업을 수행해보세요</PracticeItem>
+  <PracticeItem>두 개의 tmux 세션을 만들어 각각 다른 Claude 작업을 동시에 실행하고 결과를 비교해보세요</PracticeItem>
+</Practice>

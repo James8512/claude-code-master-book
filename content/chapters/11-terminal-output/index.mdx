@@ -1,0 +1,45 @@
+---
+slug: "11-terminal-output"
+title: "터미널 출력 추출의 기술"
+description: "Claude가 생성한 긴 출력을 효율적으로 추출하고 활용하는 방법을 배웁니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 11
+order: 11
+readingTime: "4분"
+difficulty: "beginner"
+tags: ["터미널", "출력", "클립보드"]
+draft: false
+---
+
+## 출력 추출 방법
+
+Claude가 생성한 긴 출력(테스트 결과, 로그 분석, 코드 리뷰)을 효율적으로 추출하고 활용하는 방법입니다.
+
+### 방법 1: pbcopy/pbpaste (macOS/Linux)
+
+```bash
+# Claude의 마지막 출력을 클립보드로 복사
+> "마지막 출력을 pbcopy로 복사해줘"
+# 또는 직접 명령어 실행
+> !claude -r | tail -n 50 | pbcopy
+```
+
+### 방법 2: VS Code로 바로 열기
+
+```bash
+# Claude가 생성한 코드를 임시 파일로 저장하고 VS Code에서 열기
+> "이 코드를 temp.ts 파일로 저장하고 VS Code로 열어줘"
+```
+
+### 방법 3: GitHub Desktop으로 변경 사항 검토
+
+Claude가 여러 파일을 수정한 후, GitHub Desktop을 열어 변경된 파일들을 시각적으로 검토하고, 원하지 않는 변경 사항은 되돌릴 수 있습니다.
+
+<Callout type="tip" title="ykdojo의 워크플로우">
+1. Claude에게 코드 작성 요청 → 2. GitHub Desktop으로 검토 → 3. 문제가 있으면 특정 파일만 되돌리기 → 4. "이 파일만 다시 수정해줘"
+</Callout>
+
+<Practice>
+  <PracticeItem>Claude의 출력을 pbcopy로 클립보드에 복사하거나 파일로 저장해보세요</PracticeItem>
+</Practice>

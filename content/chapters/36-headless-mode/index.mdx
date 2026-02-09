@@ -1,0 +1,108 @@
+---
+slug: "36-headless-mode"
+title: "Headless 모드: CI/CD에서 Claude 활용하기"
+description: "Claude Code를 대화형 없이 스크립트와 CI/CD 파이프라인에서 활용하는 방법을 배웁니다."
+part: 7
+partTitle: "시스템 최적화와 자동화"
+chapter: 36
+order: 36
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["Headless", "CI/CD", "자동화"]
+draft: false
+---
+
+## 개요
+
+Claude Code의 `-p` (print) 플래그를 사용하면 대화형 인터페이스 없이 단일 프롬프트로 Claude를 실행할 수 있습니다. 이를 통해 셸 스크립트, CI/CD 파이프라인, Git hooks에서 Claude를 자동화 도구로 활용할 수 있습니다.
+
+## 기본 사용법
+
+```bash
+# 단일 프롬프트 실행
+claude -p "Fix all lint errors in this project"
+
+# 파이프라인에서 사용
+git diff | claude -p "이 변경사항을 한국어로 설명해줘"
+
+# JSON 출력
+claude -p "List all TODO comments" --output-format json
+```
+
+## 실용적인 파이프라인 예시
+
+### 커밋 메시지 자동 생성
+
+```bash
+# staged 변경사항을 분석하여 커밋 메시지 생성
+git diff --staged | claude -p "이 변경사항에 대한
+conventional commit 메시지를 작성해줘.
+본문 없이 제목만."
+```
+
+### 코드 변경사항 설명
+
+```bash
+# PR에 포함될 변경사항 설명 생성
+git diff main...HEAD | claude -p "이 변경사항들을
+PR 설명으로 작성해줘. 요약, 변경 내용,
+테스트 방법을 포함해줘."
+```
+
+## GitHub Actions 통합
+
+PR이 생성될 때 자동으로 코드 리뷰를 수행하는 워크플로우:
+
+```yaml
+# .github/workflows/claude-review.yml
+name: Claude Code Review
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Run Review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          git diff origin/main...HEAD | claude -p \
+            "이 PR의 변경사항을 리뷰해줘.
+            보안 취약점, 성능 문제, 코드 스타일 이슈를
+            확인하고 JSON 형식으로 결과를 출력해줘." \
+            --output-format json > review.json
+
+      - name: Post Review Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const review = JSON.parse(fs.readFileSync('review.json', 'utf8'));
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: review.result
+            });
+```
+
+<Callout type="tip" title="JSON 출력 활용">
+`--output-format json` 플래그를 사용하면 Claude의 응답을 구조화된 JSON으로 받을 수 있어, 후속 스크립트에서 파싱하기 쉽습니다.
+</Callout>
+
+<Callout type="warning" title="API 키 보안">
+CI/CD에서 Claude를 사용할 때 API 키는 반드시 **환경 변수**나 **시크릿 관리 도구**를 통해 전달하세요. 코드에 하드코딩하거나 로그에 노출되지 않도록 주의하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>git diff | claude -p 명령으로 최근 변경사항의 설명을 자동 생성해보고, 커밋 메시지나 PR 설명으로 활용해보세요</PracticeItem>
+</Practice>

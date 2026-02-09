@@ -1,0 +1,104 @@
+---
+slug: "42-gemini-fallback"
+title: "Gemini CLI 대체와 멀티모델 오케스트레이션"
+description: "Gemini CLI를 대체 도구로 활용하고, 여러 AI 모델을 조합하여 최적의 결과를 얻는 멀티모델 워크플로우를 배웁니다."
+part: 9
+partTitle: "브라우저 통합과 웹 자동화"
+chapter: 42
+order: 42
+readingTime: "6분"
+difficulty: "intermediate"
+tags: ["Gemini", "대체", "멀티모델"]
+draft: false
+---
+
+## Gemini CLI를 대체 도구로 활용하기
+
+Claude Code가 가장 강력한 AI 코딩 도구이지만, 모든 상황에 완벽하지는 않습니다. Gemini CLI는 특히 웹 검색과 최신 정보 접근에 강점이 있어, Claude Code의 훌륭한 보완 도구가 됩니다.
+
+## Gemini CLI 설치
+
+```bash
+$ npm install -g @google/generative-ai-cli
+```
+
+설치 후 Google API 키를 설정하면 바로 사용할 수 있습니다.
+
+## 실전 활용: Reddit 리서치 워크플로우
+
+tmux를 사용하여 Claude Code와 Gemini CLI를 동시에 활용하는 워크플로우입니다.
+
+<Steps>
+<Step title="tmux 세션 분할">
+```bash
+# tmux 세션 시작
+$ tmux new -s research
+
+# 화면을 좌우로 분할
+# 왼쪽: Claude Code, 오른쪽: Gemini CLI
+```
+왼쪽 패널에서 Claude Code를, 오른쪽 패널에서 Gemini CLI를 실행합니다.
+</Step>
+<Step title="Gemini로 웹 리서치">
+오른쪽 패널의 Gemini CLI에서 최신 정보를 검색합니다.
+```
+> Reddit에서 "Next.js vs Remix 2025" 관련 최신 논의를 요약해줘
+```
+Gemini는 웹 검색 능력으로 최신 커뮤니티 의견을 수집합니다.
+</Step>
+<Step title="Claude Code로 구현">
+Gemini가 수집한 정보를 바탕으로 Claude Code에서 실제 구현을 진행합니다.
+```
+> Gemini 리서치 결과를 참고하여, 이 프로젝트에 가장 적합한
+  라우팅 전략을 적용해줘
+```
+</Step>
+</Steps>
+
+## 멀티모델 오케스트레이션
+
+하나의 작업을 여러 AI 모델이 단계별로 처리하면 각 모델의 장점을 활용할 수 있습니다.
+
+### Claude 작성 → Gemini 리뷰 → GPT 최적화
+
+<Steps>
+<Step title="Claude Code로 초안 작성">
+```
+> 사용자 인증 미들웨어를 TypeScript로 작성해줘.
+  JWT 검증, 토큰 갱신, 역할 기반 접근 제어를 포함해줘
+```
+Claude Code가 전체 구현을 작성합니다.
+</Step>
+<Step title="Gemini로 보안 리뷰">
+작성된 코드를 Gemini에게 보안 관점에서 리뷰받습니다.
+```
+> 이 인증 미들웨어 코드를 보안 관점에서 리뷰해줘.
+  OWASP Top 10 기준으로 취약점을 점검해줘
+```
+</Step>
+<Step title="최종 반영">
+각 모델의 피드백을 종합하여 Claude Code로 최종 반영합니다.
+```
+> Gemini의 보안 리뷰 결과를 반영해서 코드를 수정해줘:
+  1. Rate limiting 추가
+  2. 토큰 만료 시간 단축
+  3. 입력값 검증 강화
+```
+</Step>
+</Steps>
+
+<Callout type="info" title="ykdojo의 관점">
+ykdojo는 Claude Code를 "중앙 인터페이스(central interface)"로 사용합니다. Claude Code가 메인 작업 도구이고, Gemini나 다른 도구는 필요에 따라 보조적으로 활용하는 것입니다. 하나의 도구에 얽매이지 않고, 상황에 맞는 최적의 도구를 조합하는 것이 핵심입니다.
+</Callout>
+
+<Callout type="tip" title="실용적인 조합 팁">
+- **Claude Code**: 코드 작성, 리팩토링, 디버깅의 메인 도구
+- **Gemini CLI**: 웹 검색, 최신 정보 확인, 외부 리서치
+- **GPT**: 문서 작성, 설명 보완, 다른 관점의 코드 리뷰
+
+각 모델의 강점을 파악하고 적재적소에 활용하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>Gemini CLI를 설치한 후, tmux로 화면을 분할하여 Gemini로 기술 리서치를 하고, 그 결과를 Claude Code에 전달하여 구현하는 워크플로우를 실습해보세요</PracticeItem>
+</Practice>

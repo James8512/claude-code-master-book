@@ -1,0 +1,99 @@
+---
+slug: "64-advanced-roadmap"
+title: "고급 학습 로드맵: 1년 이상"
+description: "시스템 프롬프트 분석, 커스텀 MCP 서버 개발, 멀티 에이전트 오케스트레이션, Agent SDK까지 전문가 수준의 1년 이상 학습 계획입니다."
+part: 13
+partTitle: "학습 로드맵과 다음 단계"
+chapter: 64
+order: 64
+readingTime: "5분"
+difficulty: "advanced"
+tags: ["로드맵", "고급", "전문가"]
+draft: false
+---
+
+## 전문가로의 여정
+
+중급 과정을 완료했다면, 이제 Claude Code의 내부를 이해하고 생태계에 기여하는 전문가 수준에 도전할 때입니다. 이 로드맵은 1년 이상의 장기 계획으로, 분기별로 심화 주제를 다룹니다.
+
+## 분기별 학습 계획
+
+| 분기 | 주제 | 핵심 목표 |
+|------|------|-----------|
+| Q1 | 시스템 프롬프트 분석 | 내부 동작 원리 이해, 프롬프트 최적화 |
+| Q2 | 커스텀 MCP 서버 개발 | 자체 MCP 서버 구축, 사내 도구 통합 |
+| Q3 | 멀티 에이전트 오케스트레이션 | 복잡한 워크플로우 설계, 에이전트 조율 |
+| Q4 | Agent SDK 심화 | 프로덕션 에이전트 개발, 배포, 운영 |
+
+## 분기별 상세
+
+<Steps>
+<Step title="Q1: 시스템 프롬프트 분석">
+Claude Code의 시스템 프롬프트를 깊이 분석하여 내부 동작 원리를 이해합니다.
+
+```bash
+# 시스템 프롬프트 확인
+claude --system-prompt
+```
+
+시스템 프롬프트를 분석하면 Claude Code가 어떻게 도구를 선택하고, 어떤 규칙으로 코드를 생성하며, 어떤 안전장치가 있는지 이해할 수 있습니다. 이 지식을 바탕으로 CLAUDE.md와 프롬프트를 최적화할 수 있습니다.
+</Step>
+<Step title="Q2: 커스텀 MCP 서버 개발">
+기존 MCP 서버를 사용하는 것을 넘어, 사내 시스템에 맞는 MCP 서버를 직접 개발합니다.
+
+```typescript
+// 사내 Jira 연동 MCP 서버 예시
+import { Server } from "@modelcontextprotocol/sdk/server";
+
+const server = new Server({
+  name: "jira-mcp",
+  version: "1.0.0"
+});
+
+server.setRequestHandler("tools/call", async (request) => {
+  if (request.params.name === "get_sprint_issues") {
+    const issues = await jiraClient.getSprintIssues();
+    return { content: [{ type: "text", text: JSON.stringify(issues) }] };
+  }
+});
+```
+</Step>
+<Step title="Q3: 멀티 에이전트 오케스트레이션">
+여러 에이전트를 동시에 조율하여 복잡한 프로젝트를 관리합니다. 에이전트 간의 작업 분배, 결과 통합, 충돌 해결 전략을 설계합니다.
+
+- 에이전트 A: 프론트엔드 기능 구현
+- 에이전트 B: 백엔드 API 개발
+- 에이전트 C: 테스트 작성
+- 오케스트레이터: 전체 진행 관리 및 통합
+</Step>
+<Step title="Q4: Agent SDK 심화">
+Agent SDK를 사용하여 프로덕션 수준의 에이전트를 개발하고 배포합니다. 에러 처리, 모니터링, 비용 관리, 보안까지 고려한 실전 에이전트를 운영합니다.
+</Step>
+</Steps>
+
+## 전문가 성공 지표
+
+<Callout type="tip" title="전문가 수준의 기준">
+다음 항목들을 달성했다면 Claude Code 전문가 수준에 도달한 것입니다:
+
+- **시스템 프롬프트를 분석하고 활용할 수 있음**: 내부 동작 원리 이해
+- **MCP 서버/플러그인을 직접 개발할 수 있음**: 생태계 확장 능력
+- **팀의 Claude Code 도입을 리드할 수 있음**: 설정, 교육, 가이드라인 수립
+- **컨퍼런스나 밋업에서 경험을 공유할 수 있음**: 커뮤니티 기여
+- **Anthropic에 버그 리포트나 기능 제안을 할 수 있음**: 제품 개선 참여
+</Callout>
+
+## 전문가의 관점에서 바라보는 AI 도구
+
+전문가 단계에 오면 개별 도구의 사용법을 넘어, AI 도구 전체를 조망하는 시각을 갖게 됩니다.
+
+| 초급의 관점 | 전문가의 관점 |
+|------------|-------------|
+| "이 도구를 어떻게 사용하지?" | "이 문제에 어떤 도구 조합이 최적이지?" |
+| "이 기능이 있었나?" | "이 기능을 어떻게 확장하지?" |
+| "오류가 나면 어떡하지?" | "오류 패턴을 어떻게 자동 복구하지?" |
+| "팁을 어디서 찾지?" | "내 경험을 어떻게 공유하지?" |
+
+<Practice>
+  <PracticeItem>claude --system-prompt 명령으로 시스템 프롬프트를 확인하고, 그 내용을 분석하여 자신의 CLAUDE.md를 최적화해보세요</PracticeItem>
+</Practice>

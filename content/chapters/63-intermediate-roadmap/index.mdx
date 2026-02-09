@@ -1,0 +1,99 @@
+---
+slug: "63-intermediate-roadmap"
+title: "중급 학습 로드맵: 3-12개월"
+description: "Claude Code 기초를 마스터한 후, MCP 서버, Hooks, 서브에이전트 등 중급 기능으로 성장하는 3-12개월 학습 계획입니다."
+part: 13
+partTitle: "학습 로드맵과 다음 단계"
+chapter: 63
+order: 63
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["로드맵", "중급", "성장"]
+draft: false
+---
+
+## 중급으로의 도약
+
+기본기를 다졌다면, 이제는 Claude Code의 확장 기능을 활용하여 생산성을 한 단계 끌어올릴 차례입니다. 이 로드맵은 3개월차부터 12개월차까지의 학습 계획을 제시합니다.
+
+## 월별 학습 계획
+
+| 기간 | 주제 | 핵심 목표 |
+|------|------|-----------|
+| 3-4개월 | MCP 서버 | 외부 도구 연동, GitHub/DB MCP 서버 설정 |
+| 5-6개월 | Hooks | pre-write, post-commit 훅 설정, 자동화 |
+| 7-8개월 | Skills와 Slash Commands | 커스텀 스킬 제작, 팀용 슬래시 커맨드 개발 |
+| 9-10개월 | 컨테이너와 YOLO 모드 | Docker 환경 구축, 안전한 자율 작업 |
+| 11-12개월 | 서브에이전트 | 병렬 작업, 에이전트 오케스트레이션 |
+
+## 단계별 상세
+
+<Steps>
+<Step title="3-4개월: MCP 서버 마스터하기">
+MCP(Model Context Protocol) 서버를 설정하여 Claude Code의 능력을 외부 도구로 확장합니다.
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-postgres",
+               "postgresql://localhost:5432/mydb"]
+    }
+  }
+}
+```
+
+GitHub 이슈 조회, 데이터베이스 쿼리, 파일 시스템 탐색 등을 Claude Code에서 직접 수행할 수 있게 됩니다.
+</Step>
+<Step title="5-6개월: Hooks로 워크플로우 자동화">
+Hooks를 활용하여 Claude Code의 특정 동작 전후에 자동으로 스크립트를 실행합니다. 파일 저장 시 자동 포맷팅, 커밋 시 자동 테스트 등 개발 워크플로우를 자동화합니다.
+</Step>
+<Step title="7-8개월: Skills와 Slash Commands 개발">
+자주 사용하는 작업 패턴을 커스텀 슬래시 커맨드로 만들어 재사용합니다. 팀원들과 공유할 수 있는 스킬을 개발하여 팀 전체의 생산성을 높입니다.
+
+```markdown
+# .claude/commands/review.md
+코드 리뷰를 수행합니다:
+1. 변경된 파일 확인
+2. 코드 품질 이슈 검사
+3. 잠재적 버그 탐지
+4. 개선 제안 생성
+```
+</Step>
+<Step title="9-10개월: 컨테이너와 YOLO 모드">
+Docker 컨테이너에서 Claude Code를 실행하여 안전한 실험 환경을 구축합니다. YOLO 모드(`--dangerously-skip-permissions`)를 컨테이너 안에서 활용하여 대규모 자동화 작업을 수행합니다.
+</Step>
+<Step title="11-12개월: 서브에이전트 활용">
+여러 Claude Code 인스턴스를 병렬로 실행하여 복잡한 작업을 분담합니다. Git worktree와 터미널 탭을 활용한 멀티 에이전트 워크플로우를 구축합니다.
+</Step>
+</Steps>
+
+## 성공 지표
+
+12개월 후 다음 항목들을 달성했다면 중급 단계를 성공적으로 완료한 것입니다.
+
+<Callout type="tip" title="중급 성공 기준">
+- **생산성 향상 50% 이상**: Claude Code 없이 작업하는 것 대비 체감 속도 향상
+- **커스텀 슬래시 커맨드 5개 이상**: 자주 사용하는 워크플로우를 자동화
+- **MCP 서버 3개 이상 설정**: 외부 도구와의 통합 경험
+- **팀 설정 관리**: .claude/team-settings.json으로 팀 표준 설정
+- **컨테이너 환경 구축**: 안전한 실험 환경에서 자율 작업 수행 경험
+</Callout>
+
+## 중급에서 흔히 하는 실수
+
+| 실수 | 개선 방향 |
+|------|-----------|
+| 모든 것을 한 번에 설정하려 함 | 하나씩 추가하며 효과 검증 |
+| YOLO 모드를 호스트에서 사용 | 반드시 컨테이너 내에서만 사용 |
+| 커스텀 커맨드를 공유하지 않음 | 팀에 공유하여 피드백 받기 |
+| Hook이 너무 많아 느려짐 | 꼭 필요한 Hook만 유지 |
+
+<Practice>
+  <PracticeItem>현재 사용 중인 Claude Code 워크플로우를 점검하고, 위 로드맵에서 아직 시도하지 않은 기능 하나를 이번 주에 설정해보세요</PracticeItem>
+</Practice>

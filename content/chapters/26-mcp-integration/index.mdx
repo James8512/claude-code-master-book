@@ -1,0 +1,111 @@
+---
+slug: "26-mcp-integration"
+title: "MCP: 외부 세계와의 연결 다리"
+description: "Model Context Protocol(MCP)을 활용하여 Claude Code를 외부 서비스와 통합하는 방법을 배웁니다."
+part: 6
+partTitle: "고급 기능 - MCP, Hooks, Agents"
+chapter: 26
+order: 26
+readingTime: "7분"
+difficulty: "intermediate"
+tags: ["MCP", "통합", "외부서비스"]
+draft: false
+---
+
+## 개요
+
+Model Context Protocol(MCP)은 Claude Code를 외부 도구 및 서비스와 연결하는 표준 프로토콜입니다. 브라우저 자동화, 데이터베이스 관리, 웹 크롤링 등 다양한 기능을 Claude Code의 워크플로우에 직접 통합할 수 있습니다.
+
+## MCP 서버 추가
+
+```bash
+# Playwright MCP (브라우저 자동화)
+claude mcp add playwright -- npx @anthropic/mcp-playwright
+
+# Supabase MCP (데이터베이스)
+claude mcp add supabase -- npx @supabase/mcp-server
+
+# Firecrawl MCP (웹 크롤링)
+claude mcp add firecrawl -- npx @anthropic/mcp-firecrawl
+```
+
+## 주요 MCP 서버와 활용 사례
+
+### Playwright MCP - 브라우저 자동화
+
+웹 애플리케이션을 실제 브라우저에서 테스트하고 스크린샷을 캡처합니다.
+
+```
+Playwright MCP를 사용해서 로그인 페이지를 열고,
+이메일과 비밀번호를 입력한 후 로그인 버튼을 클릭해줘.
+결과 스크린샷을 캡처해줘.
+```
+
+<Callout type="info" title="Playwright MCP 활용">
+E2E 테스트 자동화, UI 스크린샷 기반 디버깅, 폼 자동 입력 테스트, 반응형 레이아웃 검증 등에 활용할 수 있습니다.
+</Callout>
+
+### Supabase MCP - 데이터베이스 관리
+
+Supabase 프로젝트의 테이블 조회, 데이터 CRUD, 마이그레이션 관리를 Claude Code에서 직접 수행합니다.
+
+```
+Supabase MCP를 사용해서 users 테이블의 스키마를 확인하고,
+최근 가입한 10명의 사용자 데이터를 조회해줘.
+```
+
+### Firecrawl MCP - 웹 크롤링
+
+웹사이트를 크롤링하여 구조화된 데이터를 추출합니다.
+
+```
+Firecrawl MCP로 경쟁사 블로그의 최근 글 제목과
+발행일을 크롤링해줘.
+```
+
+## 성능 최적화 가이드
+
+<Callout type="warning" title="성능 제한 권장사항">
+MCP 서버는 **10개 미만**, 활성 도구(tools)는 **80개 미만**으로 유지하세요. 너무 많은 MCP 서버를 등록하면 Claude의 컨텍스트 윈도우를 과도하게 소비하여 응답 품질이 저하됩니다.
+</Callout>
+
+### MCP 관리 명령어
+
+```bash
+# 등록된 MCP 서버 목록 확인
+claude mcp list
+
+# MCP 서버 제거
+claude mcp remove firecrawl
+
+# MCP 서버 상태 확인
+claude mcp status
+```
+
+## 프로젝트별 MCP 설정
+
+`.claude/settings.json`에 프로젝트별 MCP 서버를 설정할 수 있습니다:
+
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@anthropic/mcp-playwright"]
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["@supabase/mcp-server"],
+      "env": {
+        "SUPABASE_URL": "${SUPABASE_URL}",
+        "SUPABASE_KEY": "${SUPABASE_KEY}"
+      }
+    }
+  }
+}
+```
+
+<Practice>
+  <PracticeItem>claude mcp add 명령으로 Playwright MCP를 추가하고, 웹 페이지를 열어 스크린샷을 캡처해보세요</PracticeItem>
+  <PracticeItem>claude mcp list로 현재 등록된 MCP 서버를 확인하고, 불필요한 서버는 제거하여 10개 미만으로 유지해보세요</PracticeItem>
+</Practice>

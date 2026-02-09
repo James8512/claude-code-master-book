@@ -30,7 +30,7 @@ export function Curriculum({ chapters }: CurriculumProps) {
           커리큘럼
         </h2>
         <p className="mb-12 text-center text-muted-foreground">
-          5개 파트, 18개 챕터로 구성된 체계적인 학습 경로
+          13개 파트, 67개 팁으로 구성된 체계적인 학습 경로
         </p>
         <div className="space-y-8">
           {parts.map((part, partIdx) => {

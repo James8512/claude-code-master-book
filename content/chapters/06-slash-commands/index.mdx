@@ -1,0 +1,56 @@
+---
+slug: "06-slash-commands"
+title: "필수 슬래시 명령어 마스터"
+description: "Claude Code의 슬래시 명령어와 ! prefix를 활용하여 작업 속도를 높입니다."
+part: 2
+partTitle: "기초부터 탄탄하게"
+chapter: 6
+order: 6
+readingTime: "6분"
+difficulty: "beginner"
+tags: ["명령어", "슬래시", "터미널"]
+draft: false
+---
+
+## 슬래시 명령어의 힘
+
+Claude Code의 진정한 힘은 슬래시 명령어에서 나옵니다. 이 명령어들은 AI와의 대화를 넘어, 시스템을 직접 제어하고 정보를 즉시 얻을 수 있게 해줍니다.
+
+## Tier 1: 생존 필수 명령어
+
+| 명령어 | 설명 | 사용 시점 |
+|--------|------|-----------|
+| `/usage` | 토큰 사용량과 리셋 시간 표시 | 매 세션 시작 시 |
+| `/clear` | 대화를 깨끗이 지움 | 컨텍스트 오염 시 |
+| `/stats` | GitHub 스타일 활동 그래프 | 주간 회고 시 |
+| `/context` | 컨텍스트 윈도우 사용 현황 | 성능 저하 느낄 때 |
+
+## Tier 2: 생산성 향상 명령어
+
+| 명령어 | 설명 | 사용 시점 |
+|--------|------|-----------|
+| `/chrome` | 크롬 브라우저 통합 시작 | 웹 스크래핑, UI 테스트 |
+| `/mcp` | MCP 서버 목록 및 관리 | MCP 관리 |
+| `/permissions` | 승인된 명령어 관리 | 보안 감사 |
+| `/export` | 대화 내역 마크다운 내보내기 | 문서화, 팀 공유 |
+
+## ! Prefix: 즉시 실행의 마법
+
+`!` 접두사를 붙이면 Claude의 처리 없이 즉시 셸 명령을 실행하고 결과를 컨텍스트에 주입합니다.
+
+```bash
+# 일반적인 방법 (느림, 토큰 낭비)
+> "git status를 실행해줘"
+
+# ! Prefix 방법 (빠름, 효율적)
+> !git status
+```
+
+<Callout type="tip" title="Ado의 조언">
+"! Prefix는 제가 가장 자주 사용하는 기능입니다. `!git diff`, `!npm test`, `!docker ps` 등 간단한 상태 확인에 완벽합니다."
+</Callout>
+
+<Practice>
+  <PracticeItem>/usage, /stats, /context 명령어를 각각 실행하여 출력을 확인해보세요</PracticeItem>
+  <PracticeItem>! prefix를 사용하여 git status, npm test 등을 즉시 실행해보세요</PracticeItem>
+</Practice>

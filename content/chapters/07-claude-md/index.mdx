@@ -1,0 +1,61 @@
+---
+slug: "07-claude-md"
+title: "CLAUDE.md: AI를 위한 프로젝트 설명서"
+description: "AI가 프로젝트를 이해하고 올바른 결정을 내릴 수 있도록 CLAUDE.md를 작성하는 방법을 배웁니다."
+part: 2
+partTitle: "기초부터 탄탄하게"
+chapter: 7
+order: 7
+readingTime: "6분"
+difficulty: "beginner"
+tags: ["CLAUDE.md", "설정", "프로젝트"]
+draft: false
+---
+
+## CLAUDE.md란?
+
+CLAUDE.md 파일은 AI를 위한 프로젝트 설명서이자 행동 지침입니다. Claude는 이 파일을 최우선으로 참고하여 프로젝트의 기술 스택, 코딩 스타일, 주요 라이브러리, 그리고 해서는 안 될 일들을 파악합니다.
+
+## /init: AI가 스스로 온보딩
+
+새 프로젝트에서 `/init` 명령어를 실행하면, Claude가 코드베이스를 분석하여 CLAUDE.md의 초안을 자동으로 생성해줍니다.
+
+```markdown
+# Project: E-commerce Platform
+## Tech Stack
+- **Frontend**: Next.js 14, React 18, TailwindCSS
+- **Backend**: Node.js, Express, PostgreSQL
+## Coding Standards
+- Use TypeScript strict mode
+- Prefer server components over client components
+## DO NOT
+- Never commit `.env` files
+- Never use `any` type in TypeScript
+```
+
+## Memory Updates: 실시간 메모리 업데이트
+
+CLAUDE.md를 직접 편집하지 않고, 자연어로 지시하여 업데이트할 수 있습니다.
+
+```
+> Update Claude.md: always use bun instead of npm
+```
+
+## 간결함의 미학
+
+<Callout type="warning" title="나쁜 예 (장황함)">
+인증 시스템에 대한 장황한 설명은 컨텍스트를 낭비합니다.
+</Callout>
+
+<Callout type="tip" title="좋은 예 (간결함)">
+`## Authentication` — NextAuth.js with Credentials provider, JWT session strategy, **DO NOT**: Bypass auth checks
+</Callout>
+
+<Callout type="info" title="ykdojo의 조언">
+"처음에는 CLAUDE.md 없이 시작하세요. 같은 말을 반복하게 되면 그때 추가하세요. 과도한 정보는 컨텍스트를 낭비합니다."
+</Callout>
+
+<Practice>
+  <PracticeItem>/init 명령어로 현재 프로젝트의 CLAUDE.md를 자동 생성해보세요</PracticeItem>
+  <PracticeItem>자연어로 CLAUDE.md를 업데이트해보세요 (예: "Update Claude.md: always use pnpm")</PracticeItem>
+</Practice>

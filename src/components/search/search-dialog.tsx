@@ -77,7 +77,7 @@ export function SearchDialog({ items, open, onClose }: SearchDialogProps) {
             ref={inputRef}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="챕터 검색..."
+            placeholder="팁 검색..."
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
           <button
@@ -107,7 +107,7 @@ export function SearchDialog({ items, open, onClose }: SearchDialogProps) {
                 <FileText className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground" />
                 <div className="min-w-0">
                   <div className="text-sm font-medium">
-                    Ch.{item.chapter} {item.title}
+                    Tip {item.chapter} {item.title}
                   </div>
                   <div className="truncate text-xs text-muted-foreground">
                     Part {item.part}: {item.partTitle} — {item.description}

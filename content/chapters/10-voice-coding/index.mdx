@@ -1,0 +1,49 @@
+---
+slug: "10-voice-coding"
+title: "음성으로 코딩하기"
+description: "타이핑보다 3.75배 빠른 음성 코딩으로 생산성을 극대화합니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 10
+order: 10
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["음성코딩", "생산성", "접근성"]
+draft: false
+---
+
+## 왜 음성 코딩인가
+
+ykdojo가 가장 혁신적이라고 평가하는 기술은 음성 코딩입니다. 평균적으로 사람은 분당 40단어를 타이핑하지만, 분당 150단어를 말할 수 있습니다. 이는 **3.75배의 속도 차이**입니다.
+
+## ykdojo의 커스텀 음성 전사 시스템
+
+ykdojo는 Claude Code를 사용하여 자신만의 음성 전사 시스템을 구축했습니다:
+
+1. 키보드 단축키(예: <KeyCombo keys={["Cmd", "Shift", "Space"]} />)를 누르면 녹음 시작
+2. 다시 누르면 녹음 종료 및 전사 시작
+3. 전사된 텍스트를 현재 커서 위치에 자동 삽입
+
+## 사용 가능한 도구들
+
+| 도구 | 플랫폼 | 특징 | 가격 |
+|------|--------|------|------|
+| superwhisper | macOS | 로컬 처리, 빠름 | $30 일회성 |
+| MacWhisper | macOS | OpenAI Whisper 기반 | 무료/프리미엄 |
+| ykdojo's Custom Tool | macOS | 완전 커스터마이징 | 오픈소스 |
+| Windows Speech Recognition | Windows | 내장 | 무료 |
+
+## 음성 코딩이 유용한 상황
+
+- 복잡한 요구사항을 설명할 때
+- 여러 단계의 작업을 한 번에 지시할 때
+- 손이 피곤하거나 손목 터널 증후군이 있을 때
+- 산책하거나 이동 중일 때
+
+<Callout type="tip" title="ykdojo의 조언">
+"약간의 발음 오류나 문법 실수는 Claude가 맥락으로 이해하므로 완벽할 필요 없습니다. 생각의 흐름을 끊지 않고 바로 말하세요."
+</Callout>
+
+<Practice>
+  <PracticeItem>음성 전사 도구를 설치하고 Claude Code에게 음성으로 코드 작성을 지시해보세요</PracticeItem>
+</Practice>

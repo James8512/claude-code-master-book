@@ -1,0 +1,49 @@
+---
+slug: "17-proactive-compaction"
+title: "선제적 컨텍스트 압축"
+description: "HANDOFF.md 기법으로 대화가 길어질 때 컨텍스트를 신선하게 유지합니다."
+part: 4
+partTitle: "컨텍스트 관리의 예술"
+chapter: 17
+order: 17
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["컨텍스트", "HANDOFF", "압축"]
+draft: false
+---
+
+## HANDOFF.md 워크플로우
+
+대화가 길어지면 컨텍스트가 가득 차서 성능이 저하됩니다. ykdojo는 HANDOFF.md 기법으로 이를 해결합니다.
+
+<Steps>
+<Step title="사용량 확인">`/context`로 현재 사용량을 확인합니다 (50k 토큰 이상일 때)</Step>
+<Step title="HANDOFF.md 생성">"지금까지의 작업 내용을 HANDOFF.md로 정리해줘"</Step>
+<Step title="새 세션 시작">`/clear`로 깨끗한 상태로 시작</Step>
+<Step title="HANDOFF.md 로드">"@HANDOFF.md 이 파일을 읽고 작업을 이어가줘"</Step>
+</Steps>
+
+## HANDOFF.md 예시
+
+```markdown
+# 프로젝트: Stripe 결제 통합
+## 목표
+Stripe Checkout을 사용한 일회성 결제 시스템 구현
+## 완료된 작업
+- ✅ Stripe SDK 설치 및 API 키 설정
+- ✅ /api/create-checkout-session 엔드포인트 구현
+## 시도했지만 실패한 것
+- ❌ Webhook 서명 검증 - 로컬 환경에서 테스트 불가
+## 다음 단계
+1. ngrok으로 로컬 서버 노출
+2. payment_intent.succeeded 이벤트 핸들러 구현
+```
+
+<Callout type="tip" title="핵심">
+시도한 것, 성공한 것, 실패한 것, 다음 단계를 명확히 작성하면, 새 세션의 Claude가 즉시 작업을 이어갈 수 있습니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>HANDOFF.md를 생성하도록 Claude에게 지시하고 새 세션에서 이어가보세요</PracticeItem>
+  <PracticeItem>/context 명령어로 컨텍스트 사용 현황을 분석해보세요</PracticeItem>
+</Practice>

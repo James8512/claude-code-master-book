@@ -1,0 +1,94 @@
+---
+slug: "25-audit-commands"
+title: "승인된 명령어 감사: cc-safe로 보안 지키기"
+description: "cc-safe 도구를 사용하여 CLAUDE.md에 포함된 위험한 명령어를 감사하고 보안을 강화하는 방법을 배웁니다."
+part: 5
+partTitle: "Git과 GitHub 워크플로우"
+chapter: 25
+order: 25
+readingTime: "5분"
+difficulty: "advanced"
+tags: ["보안", "감사", "cc-safe"]
+draft: false
+---
+
+## 개요
+
+CLAUDE.md에 승인된 명령어 목록을 작성할 때, 의도치 않게 위험한 명령어가 포함될 수 있습니다. ykdojo가 만든 `cc-safe` 도구는 프로젝트의 설정 파일을 스캔하여 잠재적으로 위험한 명령어 패턴을 자동으로 탐지합니다.
+
+## cc-safe 설치 및 사용
+
+```bash
+# 설치
+npm install -g cc-safe
+
+# 현재 프로젝트 스캔
+npx cc-safe .
+```
+
+## 탐지하는 위험 패턴
+
+cc-safe는 다음과 같은 위험한 명령어 패턴을 감지합니다:
+
+| 패턴 | 위험도 | 설명 |
+|------|--------|------|
+| `sudo` | 높음 | 루트 권한 실행 |
+| `rm -rf` | 높음 | 재귀적 강제 삭제 |
+| `chmod 777` | 높음 | 전체 권한 부여 |
+| `curl \| sh` | 높음 | 원격 스크립트 직접 실행 |
+| `git push --force` | 중간 | 원격 히스토리 덮어쓰기 |
+| `npm publish` | 중간 | 패키지 공개 배포 |
+| `docker run --privileged` | 높음 | 호스트 전체 접근 컨테이너 |
+
+## 경고 출력 예시
+
+```bash
+$ npx cc-safe .
+
+🔍 Scanning CLAUDE.md and related config files...
+
+⚠️  WARNING: 3 potentially dangerous patterns found!
+
+[HIGH] Line 45 in CLAUDE.md:
+  "allowedCommands": ["sudo apt-get install *"]
+  → 'sudo' grants root access. Consider using specific
+    package names without sudo.
+
+[HIGH] Line 52 in CLAUDE.md:
+  "allowedCommands": ["rm -rf /tmp/*"]
+  → 'rm -rf' can recursively delete files. Consider
+    limiting to specific safe paths.
+
+[MEDIUM] Line 78 in .claude/settings.json:
+  "allowedCommands": ["git push --force"]
+  → '--force' overwrites remote history. Consider
+    using '--force-with-lease' instead.
+
+✅ 12 other commands passed safety check.
+```
+
+<Callout type="warning" title="실제 사고 사례">
+CLAUDE.md에 `rm -rf $BUILD_DIR`을 승인 명령어로 등록했다가, 환경변수가 비어있어 `rm -rf /`가 실행될 뻔한 사례가 보고되었습니다. cc-safe는 이런 변수 치환 패턴도 감지합니다.
+</Callout>
+
+<Callout type="tip" title="안전한 대안">
+`git push --force` 대신 `git push --force-with-lease`를, `rm -rf` 대신 `trash-cli`를 사용하세요. cc-safe는 각 위험 패턴에 대한 안전한 대안도 제안합니다.
+</Callout>
+
+## CI/CD 통합
+
+```yaml
+# .github/workflows/safety-check.yml
+name: Command Safety Audit
+on: [pull_request]
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npx cc-safe . --strict
+```
+
+<Practice>
+  <PracticeItem>npx cc-safe .를 실행하여 현재 프로젝트의 CLAUDE.md와 설정 파일에 위험한 명령어 패턴이 없는지 감사해보세요</PracticeItem>
+</Practice>

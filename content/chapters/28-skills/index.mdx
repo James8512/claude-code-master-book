@@ -1,0 +1,88 @@
+---
+slug: "28-skills"
+title: "Skills: 재사용 가능한 지식 캡슐화"
+description: "Claude Code Skills를 만들어 반복적인 작업 지식을 캡슐화하고 재사용하는 방법을 배웁니다."
+part: 6
+partTitle: "고급 기능 - MCP, Hooks, Agents"
+chapter: 28
+order: 28
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["Skills", "재사용", "자동화"]
+draft: false
+---
+
+## 개요
+
+Skills는 특정 작업에 대한 전문 지식을 마크다운 파일로 캡슐화하여 재사용할 수 있게 하는 기능입니다. CLAUDE.md가 프로젝트 전체의 규칙이라면, Skills는 특정 작업에 특화된 전문가 매뉴얼입니다. Claude는 관련 작업을 수행할 때 자동으로 적절한 Skill을 로드합니다.
+
+## Skill 파일 구조
+
+Skills는 `~/.claude/skills/` 디렉토리에 마크다운 파일로 저장됩니다:
+
+```
+~/.claude/skills/
+├── google-translate/
+│   └── skill.md
+├── code-review/
+│   └── skill.md
+└── tdd-workflow/
+    └── skill.md
+```
+
+## Skill 작성 예시: Google Translate
+
+```markdown
+<!-- ~/.claude/skills/google-translate/skill.md -->
+# Google Translate Skill
+
+## 트리거
+사용자가 텍스트 번역을 요청할 때
+
+## 지침
+1. Google Translate API를 사용하여 텍스트를 번역합니다
+2. 소스 언어가 지정되지 않으면 자동 감지합니다
+3. 번역 결과와 함께 원문도 표시합니다
+4. 전문 용어는 번역하지 않고 원문을 유지합니다
+
+## 예시
+입력: "이 코드를 영어로 번역해줘"
+동작: 한국어 → 영어 번역을 수행하되,
+코드 용어(function, variable 등)는 유지
+```
+
+## ykdojo의 Reddit Fetch Skill
+
+ykdojo는 Reddit에서 정보를 가져오는 Skill을 만들어 활용했습니다:
+
+```markdown
+<!-- ~/.claude/skills/reddit-fetch/skill.md -->
+# Reddit Fetch Skill
+
+## 트리거
+사용자가 Reddit에서 정보를 가져오라고 요청할 때
+
+## 지침
+1. Reddit JSON API를 사용합니다 (URL 뒤에 .json 추가)
+2. 인증 없이 공개 데이터만 접근합니다
+3. 결과를 구조화된 형태로 정리합니다
+4. 댓글 수, 업보트 수 등 메타데이터를 포함합니다
+
+## API 패턴
+- 서브레딧 목록: https://reddit.com/r/{subreddit}.json
+- 특정 포스트: https://reddit.com/r/{subreddit}/comments/{id}.json
+```
+
+## 자동 호출
+
+<Callout type="info" title="자동 인식">
+Claude는 사용자의 요청을 분석하여 관련 Skill을 **자동으로 로드**합니다. "이 텍스트를 번역해줘"라고 하면 Claude가 google-translate Skill을 찾아 적용합니다. 명시적으로 Skill을 지정할 필요가 없습니다.
+</Callout>
+
+<Callout type="tip" title="좋은 Skill 작성 팁">
+Skill은 **구체적이고 명확한 지침**을 담아야 합니다. "좋은 코드를 작성하세요"보다 "함수는 20줄 이내, 매개변수는 3개 이내, 반환 타입을 명시하세요"처럼 구체적으로 작성하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>~/.claude/skills/ 디렉토리에 자주 수행하는 작업(코드 리뷰, 테스트 작성, 번역 등)을 위한 Skill 파일을 작성하고 Claude가 자동으로 인식하는지 확인해보세요</PracticeItem>
+</Practice>

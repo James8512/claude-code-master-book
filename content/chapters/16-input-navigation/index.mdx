@@ -1,0 +1,54 @@
+---
+slug: "16-input-navigation"
+title: "입력 박스 탐색 및 편집"
+description: "Vim 없이도 터미널/readline 단축키로 입력 박스를 효율적으로 다룹니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 16
+order: 16
+readingTime: "3분"
+difficulty: "beginner"
+tags: ["입력", "탐색", "단축키"]
+draft: false
+---
+
+## 탐색 단축키
+
+Vim을 사용하지 않더라도 Claude Code의 입력 박스는 일반적인 터미널/readline 단축키를 지원합니다.
+
+| 단축키 | 기능 |
+|--------|------|
+| <KeyCombo keys={["Ctrl", "A"]} /> | 줄 시작으로 이동 |
+| <KeyCombo keys={["Ctrl", "E"]} /> | 줄 끝으로 이동 |
+| <KeyCombo keys={["Option", "Left/Right"]} /> (Mac) | 단어 단위 이동 |
+| <KeyCombo keys={["Alt", "Left/Right"]} /> (Linux/Win) | 단어 단위 이동 |
+
+## 편집 단축키
+
+| 단축키 | 기능 |
+|--------|------|
+| <KeyCombo keys={["Ctrl", "W"]} /> | 이전 단어 삭제 |
+| <KeyCombo keys={["Ctrl", "U"]} /> | 커서부터 줄 시작까지 삭제 |
+| <KeyCombo keys={["Ctrl", "K"]} /> | 커서부터 줄 끝까지 삭제 |
+| <KeyCombo keys={["Ctrl", "G"]} /> | 외부 에디터에서 편집 |
+
+## Ctrl+G: 외부 에디터로 편집
+
+매우 긴 프롬프트를 작성해야 할 때, <KeyCombo keys={["Ctrl", "G"]} />를 누르면 `$EDITOR` 환경 변수에 설정된 에디터가 열립니다.
+
+```bash
+# ~/.zshrc 또는 ~/.bashrc에 추가
+export EDITOR=vim  # 또는 code, nano, nvim 등
+```
+
+## 이미지 붙여넣기
+
+| 플랫폼 | 단축키 |
+|--------|--------|
+| Mac | <KeyCombo keys={["Ctrl", "V"]} /> (Cmd+V가 아님) |
+| Linux | <KeyCombo keys={["Ctrl", "V"]} /> |
+| Windows | <KeyCombo keys={["Alt", "V"]} /> |
+
+<Practice>
+  <PracticeItem>Ctrl+G로 외부 에디터에서 긴 프롬프트를 작성하여 Claude Code에 전달해보세요</PracticeItem>
+</Practice>

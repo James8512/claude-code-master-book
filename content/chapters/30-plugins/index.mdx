@@ -1,0 +1,85 @@
+---
+slug: "30-plugins"
+title: "Plugins: 기능을 하나로 묶는 번들"
+description: "Hooks, Skills, Agents, MCP를 하나의 패키지로 묶어 배포하는 Plugin 시스템을 배웁니다."
+part: 6
+partTitle: "고급 기능 - MCP, Hooks, Agents"
+chapter: 30
+order: 30
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["Plugins", "번들", "배포"]
+draft: false
+---
+
+## 개요
+
+Plugin은 Hooks, Skills, Agents, MCP 서버를 하나의 패키지로 번들링하여 설치하고 공유할 수 있는 시스템입니다. 개별 기능을 각각 설정하는 번거로움 없이, 한 번의 설치로 관련 기능 전체를 활성화할 수 있습니다.
+
+## Plugin 관리 명령어
+
+```bash
+# 플러그인 검색
+/plugin search dx
+
+# 플러그인 설치
+/plugin install ykdojo/dx
+
+# 설치된 플러그인 목록
+/plugin list
+
+# 플러그인 제거
+/plugin remove ykdojo/dx
+```
+
+## Plugin의 구성 요소
+
+Plugin은 다음 요소를 하나의 패키지에 포함할 수 있습니다:
+
+```
+my-plugin/
+├── plugin.json          # 메타데이터 및 설정
+├── hooks/
+│   ├── pre-tool-use.js  # Hook 스크립트
+│   └── post-tool-use.js
+├── skills/
+│   ├── skill-a.md       # Skill 파일
+│   └── skill-b.md
+├── agents/
+│   └── agent-config.md  # Agent 시스템 프롬프트
+└── mcp/
+    └── server.js        # MCP 서버
+```
+
+## ykdojo의 dx Plugin
+
+ykdojo가 만든 `dx` (Developer Experience) Plugin은 개발 생산성을 높이는 여러 기능을 번들로 제공합니다:
+
+### 슬래시 명령어
+
+| 명령어 | 설명 |
+|--------|------|
+| `/dx:gha` | GitHub Actions 워크플로우 생성 및 디버깅 |
+| `/dx:handoff` | 세션 간 컨텍스트 전달을 위한 핸드오프 문서 생성 |
+| `/dx:clone` | 저장소 클론 후 자동 환경 설정 |
+| `/dx:half-clone` | 저장소 구조만 파악 (파일 내용 제외) |
+
+### Reddit Fetch Skill 포함
+
+dx Plugin에는 Reddit에서 데이터를 가져오는 Skill이 내장되어 있습니다:
+
+```
+Reddit에서 r/programming의 인기 글을 가져와줘.
+```
+
+<Callout type="info" title="/dx:handoff의 활용">
+작업을 중단하고 나중에 이어서 할 때, `/dx:handoff`로 현재 진행 상황과 다음 단계를 문서화합니다. 새 세션에서 이 문서를 로드하면 컨텍스트를 잃지 않고 작업을 이어갈 수 있습니다.
+</Callout>
+
+<Callout type="tip" title="Plugin 선택 기준">
+Plugin을 설치하기 전에 **구성 요소를 확인**하세요. 불필요한 MCP 서버가 포함된 Plugin을 설치하면 도구 수가 늘어나 성능에 영향을 줄 수 있습니다. 필요한 기능만 포함된 Plugin을 선택하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>/plugin search로 관심 있는 Plugin을 찾아 설치한 후, 포함된 슬래시 명령어와 Skills를 사용해보세요</PracticeItem>
+</Practice>

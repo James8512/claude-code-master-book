@@ -1,0 +1,94 @@
+---
+slug: "58-extended-thinking"
+title: "Extended Thinking: 깊은 추론 활성화"
+description: "Extended Thinking API를 활용하여 Claude Code의 깊은 추론 능력을 극대화하는 방법을 알아봅니다."
+part: 12
+partTitle: "고급 기능과 SDK"
+chapter: 58
+order: 58
+readingTime: "5분"
+difficulty: "advanced"
+tags: ["Extended Thinking", "ultrathink", "추론"]
+draft: false
+---
+
+## Extended Thinking이란
+
+Extended Thinking은 Claude가 응답하기 전에 내부적으로 깊이 사고하는 기능입니다. 일반 응답에서는 즉시 답변을 생성하지만, Extended Thinking이 활성화되면 Claude는 문제를 여러 각도에서 분석하고, 가능한 접근 방식을 비교하고, 최적의 해답을 도출한 후에 응답합니다.
+
+## think 키워드 (구 ultrathink)
+
+<Callout type="warning" title="Deprecated: ultrathink 키워드">
+이전에는 `think`, `think hard`, `ultrathink` 등의 키워드로 추론 깊이를 조절할 수 있었지만, 이 키워드 기반 방식은 **더 이상 유효하지 않습니다(deprecated)**. 현재 Claude Code는 문제의 복잡도에 따라 자동으로 적절한 추론 깊이를 결정합니다.
+</Callout>
+
+다만, 복잡한 문제에서 Claude에게 더 깊이 생각하라고 자연어로 요청하는 것은 여전히 효과적입니다.
+
+```
+이 마이크로서비스 아키텍처의 데이터 흐름을 깊이 분석하고,
+병목 지점과 개선 방안을 제시해줘. 충분히 시간을 들여서 생각해줘.
+```
+
+## MAX_THINKING_TOKENS 설정
+
+환경 변수로 최대 추론 토큰 수를 직접 설정할 수도 있습니다.
+
+```bash
+# 환경 변수로 설정
+export MAX_THINKING_TOKENS=32000
+
+# Claude Code 실행 시 적용
+claude
+```
+
+이 설정은 모든 응답에서 Extended Thinking의 상한선을 결정합니다.
+
+## API에서의 Extended Thinking
+
+Claude Code SDK나 API를 직접 사용하는 경우, Extended Thinking을 프로그래밍 방식으로 활성화할 수 있습니다.
+
+```typescript
+const response = await client.messages.create({
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 16000,
+  thinking: {
+    type: "enabled",
+    budget_tokens: 5000
+  },
+  messages: [{
+    role: "user",
+    content: "이 아키텍처의 확장성 문제를 분석해줘"
+  }]
+});
+```
+
+<Callout type="info" title="budget_tokens 설정">
+`budget_tokens`는 추론에 할당되는 토큰의 상한선입니다. 복잡한 문제에는 높은 값(10000-32000)을, 단순한 질문에는 낮은 값(1000-5000)을 설정하세요. 토큰 비용과 응답 품질 사이의 균형을 찾는 것이 중요합니다.
+</Callout>
+
+## 언제 Extended Thinking을 사용해야 하는가
+
+| 상황 | Extended Thinking 효과 |
+|------|----------------------|
+| 단순 코드 수정, 포맷팅 | 낮음 (기본 모드로 충분) |
+| 일반적인 기능 구현 | 보통 |
+| 복잡한 버그 디버깅 | 높음 |
+| 아키텍처 결정, 시스템 설계 | 매우 높음 |
+| 성능 최적화 분석 | 매우 높음 |
+| 보안 취약점 분석 | 매우 높음 |
+
+## 실전 예시: 복잡한 아키텍처 결정
+
+```
+현재 모놀리식 Next.js 앱을 마이크로서비스로 분리하려고 해.
+사용자 인증, 결제, 알림 서비스를 분리해야 하는데,
+각 서비스 간 통신 방식(REST vs gRPC vs 이벤트 드리븐),
+데이터 일관성 전략, 배포 파이프라인을 포함한
+마이그레이션 계획을 세워줘. 모든 가능성을 깊이 분석해줘.
+```
+
+이런 복잡한 결정에서 Extended Thinking은 단순 응답 대비 훨씬 체계적이고 깊이 있는 분석을 제공합니다.
+
+<Practice>
+  <PracticeItem>현재 프로젝트의 아키텍처 결정이 필요한 부분에 Claude Code에게 심층 분석을 요청하고, Extended Thinking API의 budget_tokens를 조절하며 응답 품질 차이를 비교해보세요</PracticeItem>
+</Practice>

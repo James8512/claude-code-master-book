@@ -1,0 +1,106 @@
+---
+slug: "61-team-settings"
+title: "팀 설정 공유로 일관된 개발 환경 만들기"
+description: ".claude/team-settings.json으로 팀 전체의 Claude Code 설정을 통일하고 Git으로 공유하는 방법을 알아봅니다."
+part: 12
+partTitle: "고급 기능과 SDK"
+chapter: 61
+order: 61
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["팀", "설정", "공유"]
+draft: false
+---
+
+## 왜 팀 설정이 필요한가
+
+개인이 Claude Code를 사용할 때는 각자의 설정이 달라도 문제가 없습니다. 하지만 팀으로 작업할 때는 일관된 설정이 중요합니다. 한 사람은 특정 명령어를 허용하고 다른 사람은 차단한다면, 같은 작업에서 다른 결과가 나올 수 있습니다.
+
+## .claude/team-settings.json
+
+프로젝트 루트에 `.claude/team-settings.json` 파일을 생성하면, 해당 프로젝트에서 Claude Code를 사용하는 모든 팀원에게 동일한 설정이 적용됩니다.
+
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(pnpm *)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Read",
+      "Write",
+      "Glob",
+      "Grep"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(git reset --hard *)"
+    ]
+  },
+  "hooks": {
+    "post-write": "pnpm lint --fix ${file}",
+    "post-commit": "pnpm test --related"
+  },
+  "mcpServers": {
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./src"]
+    }
+  }
+}
+```
+
+## 설정 항목 상세
+
+<Steps>
+<Step title="permissions (권한 관리)">
+팀 전체에 적용되는 권한 규칙을 설정합니다. `allow`에 허용할 명령어 패턴을, `deny`에 차단할 명령어 패턴을 지정합니다. 위험한 Git 명령어나 파일 삭제를 팀 차원에서 방지할 수 있습니다.
+</Step>
+<Step title="hooks (자동화 훅)">
+특정 이벤트 발생 시 자동으로 실행되는 명령어를 설정합니다. 파일 저장 후 자동 린트, 커밋 후 관련 테스트 실행 등 팀의 개발 규칙을 자동으로 적용할 수 있습니다.
+</Step>
+<Step title="mcpServers (MCP 서버)">
+팀에서 공통으로 사용하는 MCP 서버를 설정합니다. GitHub 연동, 파일 시스템 접근, 데이터베이스 연결 등 팀의 워크플로우에 필요한 외부 도구를 일괄 설정합니다.
+</Step>
+</Steps>
+
+## Git으로 설정 공유하기
+
+`.claude/` 폴더를 Git에 포함시키면, 모든 팀원이 동일한 설정을 자동으로 받게 됩니다.
+
+```bash
+# .claude/ 폴더를 Git에 추가
+git add .claude/team-settings.json
+git commit -m "Add Claude Code team settings"
+git push
+```
+
+<Callout type="warning" title="개인 설정과 팀 설정의 분리">
+개인적인 API 키나 인증 정보는 팀 설정에 포함하지 마세요. 이런 정보는 `.claude/local-settings.json`이나 환경 변수를 사용하고, `.gitignore`에 등록하세요.
+</Callout>
+
+## 설정 우선순위
+
+설정이 충돌할 때의 우선순위를 이해하는 것이 중요합니다.
+
+| 우선순위 | 설정 파일 | 범위 |
+|---------|-----------|------|
+| 1 (최고) | 개인 로컬 설정 | 개인 |
+| 2 | 프로젝트 설정 | 프로젝트 |
+| 3 | 팀 설정 | 팀 |
+| 4 (최저) | 기본 설정 | 전역 |
+
+<Callout type="tip" title="실전 팁">
+새 팀원이 합류했을 때 별도의 설정 가이드 없이 `git clone`만으로 동일한 개발 환경을 갖출 수 있다는 것이 팀 설정의 가장 큰 장점입니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>프로젝트에 .claude/team-settings.json 파일을 생성하고, 팀에서 공통으로 사용할 권한 규칙과 훅을 설정하여 Git에 커밋해보세요</PracticeItem>
+</Practice>

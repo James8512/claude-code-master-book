@@ -24,7 +24,7 @@ export function ChapterNav({ prev, next }: ChapterNavProps) {
           <div className="min-w-0">
             <div className="text-xs text-muted-foreground">이전</div>
             <div className="truncate text-sm font-medium">
-              Ch.{prev.chapter} {prev.title}
+              Tip {prev.chapter} {prev.title}
             </div>
           </div>
         </Link>
@@ -39,7 +39,7 @@ export function ChapterNav({ prev, next }: ChapterNavProps) {
           <div className="min-w-0 text-right">
             <div className="text-xs text-muted-foreground">다음</div>
             <div className="truncate text-sm font-medium">
-              Ch.{next.chapter} {next.title}
+              Tip {next.chapter} {next.title}
             </div>
           </div>
           <ArrowRight className="h-4 w-4 flex-shrink-0 text-muted-foreground transition-colors group-hover:text-accent" />

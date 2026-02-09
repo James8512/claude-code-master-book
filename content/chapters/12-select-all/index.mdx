@@ -1,0 +1,39 @@
+---
+slug: "12-select-all"
+title: "Cmd+A/Ctrl+A: 전체 선택의 힘"
+description: "웹 페이지나 문서의 내용을 빠르게 컨텍스트에 넣는 방법을 배웁니다."
+part: 3
+partTitle: "생산성을 극대화하는 핵심 기술"
+chapter: 12
+order: 12
+readingTime: "3분"
+difficulty: "beginner"
+tags: ["단축키", "복사", "컨텍스트"]
+draft: false
+---
+
+## 전체 선택의 활용
+
+웹 페이지나 문서의 내용을 빠르게 컨텍스트에 넣고 싶을 때, <KeyCombo keys={["Cmd", "A"]} /> (macOS) 또는 <KeyCombo keys={["Ctrl", "A"]} /> (Windows/Linux)로 전체를 선택하고 복사하여 Claude Code에 붙여넣으세요.
+
+## 접근이 막힌 웹사이트
+
+ykdojo는 Claude의 네이티브 브라우저로 접근이 막힌 웹사이트의 내용을 가져오기 위해 Gemini CLI를 사용했습니다.
+
+```bash
+# 1. Gemini CLI로 웹사이트 접근
+# 2. Gemini가 가져온 내용을 Cmd+A로 전체 선택
+# 3. Claude Code에 붙여넣기
+> "이 내용을 분석해서 핵심 정보를 요약해줘"
+```
+
+## 긴 문서 요약
+
+```bash
+# PDF나 웹 페이지의 내용을 전체 복사한 후
+> "이 논문의 핵심 내용을 3개의 불릿 포인트로 요약해줘"
+```
+
+<Practice>
+  <PracticeItem>웹 페이지 전체를 복사하여 Claude Code에 붙여넣고 요약을 요청해보세요</PracticeItem>
+</Practice>

@@ -1,0 +1,119 @@
+---
+slug: "60-agent-sdk"
+title: "Agent SDK로 나만의 에이전트 만들기"
+description: "@anthropic-ai/claude-agent-sdk를 사용하여 10줄의 코드로 커스텀 에이전트를 만들고, 다양한 자동화 시나리오에 활용하는 방법을 알아봅니다."
+part: 12
+partTitle: "고급 기능과 SDK"
+chapter: 60
+order: 60
+readingTime: "5분"
+difficulty: "advanced"
+tags: ["Agent SDK", "개발", "API"]
+draft: false
+---
+
+## Agent SDK란
+
+Claude Code Agent SDK(`@anthropic-ai/claude-agent-sdk`)는 Claude Code의 에이전트 기능을 프로그래밍 방식으로 사용할 수 있게 해주는 공식 SDK입니다. 터미널에서 대화형으로 사용하는 Claude Code의 모든 능력을 코드로 자동화할 수 있습니다.
+
+## 10줄 에이전트 만들기
+
+놀랍도록 간단한 코드로 강력한 에이전트를 만들 수 있습니다.
+
+```typescript
+import { query } from "@anthropic-ai/claude-agent-sdk";
+
+const result = await query({
+  prompt: "src 디렉토리의 모든 TypeScript 파일에서 사용되지 않는 import를 찾아서 제거해줘",
+  allowedTools: ["Read", "Write", "Bash"],
+  permissionMode: "auto"
+});
+
+console.log(result.output);
+```
+
+이 10줄의 코드가 하는 일은 Claude Code를 터미널에서 수동으로 조작하는 것과 동일합니다. 다만, 프로그래밍 방식으로 제어할 수 있기 때문에 자동화와 통합이 가능합니다.
+
+## 핵심 API 구성 요소
+
+<Steps>
+<Step title="query() 함수">
+에이전트에게 작업을 지시하는 핵심 함수입니다. 프롬프트, 허용된 도구, 권한 모드를 설정하여 에이전트의 행동 범위를 정의합니다.
+</Step>
+<Step title="allowedTools">
+에이전트가 사용할 수 있는 도구를 명시적으로 지정합니다. `Read`, `Write`, `Bash`, `Glob`, `Grep` 등 필요한 도구만 허용하여 안전성을 확보합니다.
+
+```typescript
+// 읽기 전용 에이전트
+allowedTools: ["Read", "Glob", "Grep"]
+
+// 코드 수정 가능 에이전트
+allowedTools: ["Read", "Write", "Bash", "Glob", "Grep"]
+```
+</Step>
+<Step title="permissionMode">
+권한 처리 방식을 결정합니다. `"auto"`는 모든 권한을 자동 승인하고, `"interactive"`는 사용자에게 확인을 요청합니다.
+</Step>
+</Steps>
+
+## 실전 활용 사례
+
+### 1. CI/CD 파이프라인 에이전트
+
+```typescript
+// PR이 생성될 때마다 자동으로 코드 리뷰
+const reviewResult = await query({
+  prompt: `이 PR의 변경사항을 리뷰해줘:
+    - 코드 품질 이슈
+    - 잠재적 버그
+    - 성능 문제
+    - 보안 취약점`,
+  allowedTools: ["Read", "Glob", "Grep", "Bash"],
+  permissionMode: "auto"
+});
+```
+
+### 2. 내부 도구 임베딩
+
+```typescript
+// 사내 대시보드에 Claude 에이전트 통합
+app.post("/api/analyze", async (req, res) => {
+  const result = await query({
+    prompt: `${req.body.codeSnippet}를 분석하고 개선 방안을 제안해줘`,
+    allowedTools: ["Read"],
+    permissionMode: "auto"
+  });
+  res.json({ analysis: result.output });
+});
+```
+
+### 3. 특화된 워크플로우 에이전트
+
+```typescript
+// 매일 오전 9시에 실행되는 코드 품질 에이전트
+const qualityReport = await query({
+  prompt: `프로젝트의 코드 품질 리포트를 생성해줘:
+    1. 테스트 커버리지 확인
+    2. 타입 안전성 검사
+    3. 사용되지 않는 코드 탐지
+    4. 의존성 업데이트 필요 여부`,
+  allowedTools: ["Read", "Bash", "Glob", "Grep"],
+  permissionMode: "auto"
+});
+```
+
+<Callout type="warning" title="보안 주의사항">
+Agent SDK를 사용할 때는 `allowedTools`를 최소한으로 설정하세요. 특히 `Bash` 도구는 시스템 명령어를 실행할 수 있으므로, 신뢰할 수 있는 환경에서만 허용해야 합니다.
+</Callout>
+
+<Callout type="info" title="SDK 설치">
+```bash
+npm install @anthropic-ai/claude-agent-sdk
+```
+SDK 사용을 위해서는 Anthropic API 키 또는 Claude Code 구독이 필요합니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>Agent SDK를 설치하고, 프로젝트의 사용되지 않는 import를 자동으로 정리하는 간단한 에이전트 스크립트를 작성해보세요</PracticeItem>
+  <PracticeItem>CI/CD 파이프라인에 통합할 수 있는 자동 코드 리뷰 에이전트를 설계하고, 핵심 프롬프트를 작성해보세요</PracticeItem>
+</Practice>

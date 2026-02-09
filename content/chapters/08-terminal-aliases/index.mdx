@@ -1,0 +1,58 @@
+---
+slug: "08-terminal-aliases"
+title: "터미널 별칭으로 빠른 접근"
+description: "파워 유저들이 사용하는 터미널 별칭으로 타이핑 시간을 줄입니다."
+part: 2
+partTitle: "기초부터 탄탄하게"
+chapter: 8
+order: 8
+readingTime: "3분"
+difficulty: "beginner"
+tags: ["터미널", "별칭", "생산성"]
+draft: false
+---
+
+## 왜 별칭이 필요한가
+
+파워 유저들은 타이핑을 최소화하기 위해 터미널 별칭을 적극 활용합니다. 하루에 수십 번 실행하는 명령어라면, 별칭을 만들어야 합니다.
+
+## ykdojo의 별칭 설정
+
+`~/.zshrc` 또는 `~/.bashrc`에 추가:
+
+```bash
+# Claude Code 기본 별칭
+alias c='claude'
+alias cc='claude --continue'    # 마지막 대화 이어가기
+alias cr='claude --resume'      # 대화 목록에서 선택
+alias ch='claude --chrome'      # 크롬 통합 모드
+
+# Git 관련 별칭 (Claude와 함께 사용)
+alias gb='git branch'
+alias gco='git checkout'
+alias gst='git status'
+alias gd='git diff'
+
+# 빠른 종료
+alias q='exit'
+```
+
+## 사용 예시
+
+```bash
+# 기존 방법
+$ claude --continue
+$ claude --chrome
+
+# 별칭 사용
+$ cc
+$ ch
+```
+
+<Callout type="tip" title="ykdojo의 조언">
+"하루에 수십 번 실행하는 명령어라면, 별칭을 만드세요. 타이핑 시간이 쌓이면 엄청난 차이를 만듭니다."
+</Callout>
+
+<Practice>
+  <PracticeItem>자신만의 Claude Code 별칭을 3개 이상 만들어 ~/.zshrc에 추가해보세요</PracticeItem>
+</Practice>

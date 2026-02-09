@@ -1,0 +1,154 @@
+---
+slug: "51-tdd-tests"
+title: "TDD: AI가 스스로 테스트하는 시대"
+description: "TDD 방식으로 사용자 등록 기능을 구현하며, AI가 자신의 코드를 테스트하고 검증하는 워크플로우를 배웁니다."
+part: 10
+partTitle: "실전 활용 사례"
+chapter: 51
+order: 51
+readingTime: "7분"
+difficulty: "intermediate"
+tags: ["TDD", "테스트", "안전망"]
+draft: false
+---
+
+## AI도 자신의 코드를 테스트할 수 있다
+
+<Callout type="tip" title="ykdojo의 통찰">
+AI가 자신이 작성한 코드를 테스트할 수 있다는 사실은 강력합니다. 테스트를 먼저 작성하고, 구현하고, 실행하여 검증하는 전체 사이클을 Claude Code가 수행할 수 있습니다.
+</Callout>
+
+많은 개발자가 테스트 작성을 귀찮은 작업으로 여기지만, Claude Code와 함께하면 TDD가 자연스럽고 빠른 개발 방식이 됩니다. AI가 테스트를 작성하고, 코드를 구현하고, 결과를 검증하는 전체 과정을 처리합니다.
+
+## 실전: 사용자 등록 기능 TDD
+
+### Red: 실패하는 테스트 작성
+
+```
+> 사용자 등록 기능에 대한 테스트를 먼저 작성해줘. 구현은 하지 마.
+  다음 세 가지 케이스를 포함해줘:
+  1. 유효한 입력으로 사용자 등록 성공
+  2. 중복 이메일로 등록 시 에러
+  3. 약한 비밀번호로 등록 시 에러
+```
+
+Claude Code가 테스트 파일을 작성합니다:
+
+```typescript
+// tests/services/user-registration.test.ts
+describe('UserRegistration', () => {
+  it('유효한 입력으로 사용자를 성공적으로 등록한다', async () => {
+    const result = await registerUser({
+      email: 'new@example.com',
+      password: 'StrongP@ss123',
+      name: '홍길동'
+    });
+    expect(result.success).toBe(true);
+    expect(result.user.email).toBe('new@example.com');
+  });
+
+  it('중복 이메일로 등록하면 에러를 반환한다', async () => {
+    await registerUser({
+      email: 'existing@example.com',
+      password: 'StrongP@ss123',
+      name: '기존사용자'
+    });
+
+    const result = await registerUser({
+      email: 'existing@example.com',
+      password: 'AnotherP@ss456',
+      name: '새사용자'
+    });
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('EMAIL_ALREADY_EXISTS');
+  });
+
+  it('약한 비밀번호로 등록하면 에러를 반환한다', async () => {
+    const result = await registerUser({
+      email: 'user@example.com',
+      password: '1234',
+      name: '약한비밀번호'
+    });
+    expect(result.success).toBe(false);
+    expect(result.error).toBe('WEAK_PASSWORD');
+  });
+});
+```
+
+### 테스트 실행 (모두 실패)
+
+```
+> 테스트를 실행해줘
+
+$ npx jest tests/services/user-registration.test.ts
+
+ FAIL  tests/services/user-registration.test.ts
+  ✗ 유효한 입력으로 사용자를 성공적으로 등록한다
+  ✗ 중복 이메일로 등록하면 에러를 반환한다
+  ✗ 약한 비밀번호로 등록하면 에러를 반환한다
+```
+
+모든 테스트가 실패합니다. 아직 구현이 없으니 당연합니다.
+
+### 커밋: Red 상태
+
+```
+> 실패하는 테스트를 커밋해줘.
+  메시지: "test: add user registration tests (red phase)"
+```
+
+<Callout type="info" title="실패하는 테스트를 커밋하는 이유">
+TDD에서 실패하는 테스트를 커밋하는 것은 "이 기능의 요구사항을 정의했다"는 기록입니다. 나중에 git log를 보면 요구사항(테스트)이 먼저 정의되고, 그 후에 구현이 추가된 것을 명확히 알 수 있습니다.
+</Callout>
+
+### Green: 최소한의 구현
+
+```
+> 이제 테스트를 통과하는 최소한의 코드를 구현해줘.
+  과도한 추상화 없이, 테스트를 통과하기 위한 가장 단순한 구현으로.
+```
+
+Claude Code가 구현 파일을 작성합니다.
+
+### 테스트 실행 (모두 통과)
+
+```
+> 테스트를 다시 실행해줘
+
+$ npx jest tests/services/user-registration.test.ts
+
+ PASS  tests/services/user-registration.test.ts
+  ✓ 유효한 입력으로 사용자를 성공적으로 등록한다 (15ms)
+  ✓ 중복 이메일로 등록하면 에러를 반환한다 (8ms)
+  ✓ 약한 비밀번호로 등록하면 에러를 반환한다 (3ms)
+```
+
+### 커밋: Green 상태
+
+```
+> 통과하는 구현을 커밋해줘.
+  메시지: "feat: implement user registration (green phase)"
+```
+
+## TDD의 안전망 효과
+
+<Steps>
+<Step title="리팩토링이 안전해진다">
+테스트가 있으면 코드를 자신있게 리팩토링할 수 있습니다. 무언가 깨지면 테스트가 즉시 알려줍니다.
+</Step>
+<Step title="회귀 버그를 예방한다">
+새 기능을 추가할 때 기존 기능이 깨지지 않는지 자동으로 확인합니다.
+</Step>
+<Step title="문서 역할을 한다">
+테스트 코드는 "이 함수가 어떻게 동작해야 하는지"를 명확히 보여주는 실행 가능한 문서입니다.
+</Step>
+</Steps>
+
+<Callout type="tip" title="AI와 TDD는 궁합이 좋다">
+AI에게 "테스트를 먼저 작성하고, 그 다음 구현해"라고 지시하면, AI가 자신의 구현을 스스로 검증할 수 있는 안전망이 만들어집니다. AI의 결과물을 신뢰하기 어렵다면, TDD로 그 신뢰를 구축하세요.
+</Callout>
+
+<Practice>
+  <PracticeItem>간단한 유틸리티 함수(문자열 처리, 날짜 변환 등)를 TDD 방식으로 구현해보세요: 테스트 먼저 → 커밋 → 구현 → 커밋</PracticeItem>
+  <PracticeItem>기존 코드에 테스트를 추가한 뒤, Claude Code에게 리팩토링을 요청하고 테스트가 여전히 통과하는지 확인해보세요</PracticeItem>
+</Practice>

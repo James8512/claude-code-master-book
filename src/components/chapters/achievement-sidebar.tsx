@@ -75,7 +75,7 @@ export function AchievementSidebar() {
         </div>
 
         {/* 챕터별 미니 진행바 */}
-        <div className="space-y-1.5 max-h-48 overflow-y-auto">
+        <div className="space-y-1.5 max-h-72 overflow-y-auto">
           {CHAPTER_SLUGS.map((slug) => {
             const total = PRACTICE_COUNTS[slug];
             const done = chapterCounts.get(slug) ?? 0;

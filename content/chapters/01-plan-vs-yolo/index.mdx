@@ -1,0 +1,63 @@
+---
+slug: "01-plan-vs-yolo"
+title: "계획 모드 vs. 욜로 모드"
+description: "상황에 따라 적절한 모드를 선택하는 것은 생산성을 극대화하는 중요한 기술입니다."
+part: 1
+partTitle: "에이전틱 개발자의 사고방식"
+chapter: 1
+order: 1
+readingTime: "5분"
+difficulty: "intermediate"
+tags: ["계획모드", "YOLO모드", "워크플로우"]
+draft: false
+---
+
+## 두 가지 작업 방식
+
+Claude Code는 두 가지 핵심 작업 방식을 제공합니다. 상황에 따라 적절한 모드를 선택하는 것은 생산성을 극대화하는 중요한 기술입니다.
+
+## 계획 모드 (Plan Mode)
+
+<KeyCombo keys={["Shift", "Tab"]} /> 을 두 번 누르면 계획 모드로 진입합니다. 이 모드에서 Claude는:
+
+- 코드베이스를 읽고 분석합니다
+- 아키텍처를 파악합니다
+- 의존성을 탐색합니다
+- 구현 계획을 단계별로 작성합니다
+
+하지만 여러분이 승인하기 전까지는 **아무것도 편집하지 않습니다**. 이는 "두 번 생각하고, 한 번 실행하라(Think twice, execute once)"는 철학을 구현한 것입니다.
+
+<Callout type="info" title="Ado의 조언">
+"저는 90%의 시간 동안 계획 모드를 기본으로 사용합니다. 최신 버전에서는 계획을 거부할 때 피드백을 제공할 수 있어, 반복 작업이 더 빠릅니다."
+</Callout>
+
+### 계획 모드를 사용해야 할 때
+
+- 처음 해보는 복잡한 작업
+- 여러 파일에 걸친 대규모 리팩토링
+- 아키텍처 변경이 필요한 작업
+- 실수 시 복구 비용이 큰 작업 (예: 데이터베이스 마이그레이션)
+
+## 욜로 모드 (YOLO Mode)
+
+```bash
+claude --dangerously-skip-permissions
+```
+
+이 플래그로 실행하면, Claude는 모든 작업에 대해 자동으로 승인합니다. 이름에 "dangerously"가 들어간 이유가 있습니다.
+
+### 욜로 모드를 사용해야 할 때
+
+- 간단하고 명확한 작업 (예: "이 함수에 주석 추가해줘")
+- 실험적인 프로토타입 작업
+- 컨테이너 안에서 격리된 환경에서 작업할 때
+- 반복적이고 시간이 많이 걸리는 작업 (예: 대량의 파일 처리)
+
+<Callout type="warning" title="주의">
+욜로 모드는 호스트 시스템에서 직접 사용하지 마세요. ykdojo는 반드시 컨테이너 안에서 사용할 것을 강력히 권장합니다.
+</Callout>
+
+<Practice>
+  <PracticeItem>계획 모드를 활성화하여 복잡한 리팩토링 작업의 계획을 세워보세요</PracticeItem>
+  <PracticeItem>Docker 컨테이너 안에서 YOLO 모드를 사용하여 프로토타입을 만들어보세요</PracticeItem>
+</Practice>

@@ -1,0 +1,51 @@
+---
+slug: "19-conversation-clone"
+title: "대화 복제 및 반복제"
+description: "현재 대화를 유지하면서 다른 접근 방식을 시도하는 방법을 배웁니다."
+part: 4
+partTitle: "컨텍스트 관리의 예술"
+chapter: 19
+order: 19
+readingTime: "4분"
+difficulty: "intermediate"
+tags: ["복제", "반복제", "실험"]
+draft: false
+---
+
+## Clone: 전체 복제
+
+```bash
+> /clone
+```
+
+현재 대화의 모든 내용을 새로운 UUID로 복제합니다. 사용 사례:
+
+- A 방식과 B 방식 중 어느 것이 더 나은지 비교 실험
+- 위험한 변경을 시도하기 전에 백업 생성
+- 팀원과 공유하기 위한 스냅샷
+
+## Half-Clone: 반복제
+
+```bash
+> /half-clone
+```
+
+대화의 후반부만 유지하고 전반부는 삭제합니다. 컨텍스트 사용량을 절반으로 줄이면서 최근 작업은 유지합니다.
+
+### 사용 사례
+
+- 대화가 너무 길어져서 성능이 저하될 때
+- 초기 실험 단계는 더 이상 필요 없고, 현재 구현만 중요할 때
+
+## 설치 방법
+
+```bash
+claude plugin marketplace add ykdojo/claude-code-tips
+claude plugin install dx@ykdojo
+```
+
+이제 `/dx:clone`과 `/dx:half-clone` 명령어를 사용할 수 있습니다.
+
+<Practice>
+  <PracticeItem>/clone 또는 /half-clone을 사용하여 대화를 복제하고 다른 접근 방식을 시도해보세요</PracticeItem>
+</Practice>
