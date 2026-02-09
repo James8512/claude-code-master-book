@@ -56,7 +56,7 @@ export default function PasswordGate({
             Claude Code 마스터북
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            스터디 전용 콘텐츠입니다. 비밀번호를 입력해주세요.
+            사내 세션 전용 페이지입니다. 비밀번호를 입력해주세요.
           </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
