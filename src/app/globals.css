@@ -166,6 +166,24 @@ body {
   font-weight: 600;
 }
 
+/* Callout dark mode: 밝은 배경 + 어두운 텍스트 */
+.dark [data-callout] {
+  color: #1f2937;
+}
+
+.dark [data-callout] p,
+.dark [data-callout] li,
+.dark [data-callout] span,
+.dark [data-callout] strong {
+  color: #1f2937;
+}
+
+.dark [data-callout] code:not([data-language]) {
+  color: #1f2937;
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
 /* Shiki code blocks */
 [data-rehype-pretty-code-figure] {
   margin: 1.25rem 0;
